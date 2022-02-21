@@ -19,9 +19,12 @@
   .btn {
         background-color: #fd2d01;
         border-radius: 5px;
-        width: 100px;
+        min-width: 100px;
         height: 25px;
-        font-size: 10px;
+        font-size: 15px;
+        font-weight: 550;
+        align-items: center;
+        
   }
 
   body {
