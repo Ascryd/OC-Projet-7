@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const routes = [
 
   {
-    path: '/connect',
+    path: '/',
     name: 'Connect',
     component: Connect
   },

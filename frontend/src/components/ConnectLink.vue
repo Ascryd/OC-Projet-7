@@ -1,6 +1,6 @@
 <template>
     <div class="button">
-        <button class="btn btn--smooth" @click="changeTemplate"> {{ button_name }} </button>
+        <button class="btn btn--light" @click="changeTemplate"> {{ button_name }} </button>
     </div>
 </template>
 
@@ -35,14 +35,6 @@ export default {
 
 <style lang="scss">
 
-    .btn--smooth {
-          background-color: rgb(255, 255, 255);
-          border: none;
-          color: #df2500;
-          :hover {
-              color: blue;
-              text-decoration: underline;
-          }
-    }
+    
 
 </style>

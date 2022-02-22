@@ -42,7 +42,7 @@ header {
   justify-content: space-between;
   padding: 5px;
   width: 100%;
-  box-shadow: 2px 2px 5px grey;
+  box-shadow: 2px 3px 7px rgb(15, 15, 15);
 
 
   .right {

@@ -1,5 +1,5 @@
 <template>
-    <div class="Connexion">
+    <div class="connexion">
         <Header />
         <div class="element">
             <div v-if="$store.state.haveAccount == true" class="login">
@@ -49,7 +49,7 @@ export default {
 
 .connect {
     width: 300px;
-    background-color: white;
+    background-color: rgb(34, 33, 33);
     border-radius: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -58,11 +58,12 @@ export default {
     margin-right: auto;
     // border: solid rgb(221, 221, 221) 2px;
     box-shadow: 2px 2px 10px rgb(78, 78, 78);
+    color: white;
     
     
     h1 {
         font-size: 1.3rem;
-        font-weight: 530;
+        font-weight: 500;
         text-align: center;
     }
 
@@ -82,7 +83,7 @@ export default {
                 border-radius: 2px;
                 border: none;
                 height: 25px;
-                background-color: rgb(199, 199, 199);
+                background-color: white;
                 margin: 5px 0 15px 0;
             }
         }
