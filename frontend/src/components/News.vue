@@ -1,14 +1,17 @@
 <template >
     <div class="News">
         <div v-for="item in post" :key="item.id" class="post">
+
             <div class="info">
                 <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
                 <h2>{{item.firstName}} {{item.lastName}}</h2>
                 <p>Il y a {{item.timeStamp}}</p>
                 <button class="btn">Supprimer</button>
             </div>
+
             <p class="userPost">{{item.userPost}}</p>
             <img class="postPic" src="@/assets/logo.png" alt="image du post">
+
             <div class="interaction">
                 <div class="dislike">
                     <button aria-pressed="false" class="dislike__button">
@@ -27,17 +30,29 @@
                     <textarea rows="2" placeholder="Répondez !" name="post" ></textarea>
                     <font-awesome-icon class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
                 </div>
-                <div class="post_comments">
+                <div v-for="comment in item.comments" :key="comment.id" class="post_comments">
                     <div class="info">
                         <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                        <h2>{{item.firstName}} {{item.lastName}}</h2>
-                        <p>Il y a {{item.timeStamp}}</p>
+                        <h2>{{comment.firstName}} {{comment.lastName}}</h2>
+                        <p>Il y a {{comment.timeStamp}}</p>
                         <button class="btn">Supprimer</button>
                     </div>
+                    <p class="userPost">{{comment.userPost}}</p>
+                    <img class="postPic" src="@/assets/logo.png" alt="image du post">
+                </div>
+                
+                <div class="interaction">
+                    <div class="dislike">
+                        <button aria-pressed="false" class="dislike__button">
+                            <font-awesome-icon class="like__icon" :icon="['fas', 'thumbs-up']"></font-awesome-icon>
+                            <p>254</p>
+                        </button>
+                    </div>
+                    <font-awesome-icon class="dislike_icon" :icon="['fas', 'thumbs-down']"></font-awesome-icon>
+                    <font-awesome-icon class="comment_icon" :icon="['fas', 'comment']"></font-awesome-icon>
                 </div>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -60,8 +75,20 @@ export default {
                     id: 12,
                     comments: [
                         {
+                            firstName: "John",
+                            lastName: "Doe",
+                            timeStamp: "26 minutes",
+                            userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+                            id: 15,
+                        }, 
 
-                        }
+                        {
+                            firstName: "John",
+                            lastName: "Doe",
+                            timeStamp: "50 minutes",
+                            userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+                            id: 16,
+                        },
                     ]
                 },
 
@@ -94,6 +121,11 @@ export default {
                 display: flex;
                 align-items: center;
                 gap: 20px;
+
+                p {
+                    font-size: 12px;
+                    font-style: italic;
+                }
             }
 
             .userPost {
@@ -136,7 +168,7 @@ export default {
             }
             
             .comments {
-                margin: 20px 5px 0 70px;
+                margin: 20px 5px 0 0px;
 
                 .comments_h2 {
                     margin-bottom: 10px;
@@ -172,10 +204,24 @@ export default {
             }
 
             .post_comments {
+                border-top : thin rgb(150, 150, 150) solid;
                 margin-top: 25px;
-                display: flex;
-                align-items: center;
+                padding-left: 30px;
                 
+
+                .info {
+                    padding-top: 10px;
+                    display: flex;
+                    align-items: center;  
+                }
+                
+                .userPost {
+                    margin-left: 50px;
+                }
+
+                .postPic {
+                    margin-left: 50px;
+                }
             }
         }
     }

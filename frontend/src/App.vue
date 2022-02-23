@@ -19,16 +19,10 @@
 
   body {
     background-color: grey;
+    font-family: roboto;
   }
 
   .btn {
-        // background-color: #fd2d01;
-        // border-radius: 5px;
-        // min-width: 100px;
-        // height: 25px;
-        // font-size: 15px;
-        // font-weight: 550;
-        // align-items: center;
         border-radius: 5px;
         align-items: center;
         font-weight: 500;
@@ -48,8 +42,14 @@
             // min-width: 0px;
             // width: 0px;
           }
-          
-        
+
+          &--delete {
+            border: none;
+            background-color: rgb(255, 49, 49);
+            color: black;
+            font-weight: 550;
+            text-align: center;
+          }
   }
 
   .btn--light {

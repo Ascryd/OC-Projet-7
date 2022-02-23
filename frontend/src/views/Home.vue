@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <Header />
+        <Header :toggleModale="toggleModale" userConnected = true />
+
+        <AccountModale :revele="revele" :toggleModale="toggleModale" />
 
         <div class="accueil">
             <div class="post">
@@ -29,18 +31,32 @@
 <script>
 import Header from "@/components/Header.vue"
 import News from "@/components/News.vue"
+import AccountModale from "@/components/AccountModale.vue"
+
 
 export default {
     name: "Home",
     components: {
         Header,
         News,
+        AccountModale,
     },
+
+    props: ["userConnected"],
 
     data() {
         return {
             imgLink: "Lien de l'image",
+            revele: true
+            
         }
+    },
+
+    methods: {
+
+        toggleModale () {
+            this.revele = !this.revele
+        },
     },
     
 }
@@ -54,7 +70,8 @@ export default {
 
     .home {
     background: rgb(80,80,80);
-    background: linear-gradient(90deg, rgba(80,80,80,1) 0%, rgba(223,37,0,1) 50%, rgba(80,80,80,1) 100%);
+    // background: linear-gradient(90deg, rgba(80,80,80,1) 0%, rgba(223,37,0,1) 50%, rgba(80,80,80,1) 100%);
+
     }
 
 

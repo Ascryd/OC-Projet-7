@@ -63,8 +63,9 @@ export default {
     
     h1 {
         font-size: 1.3rem;
-        font-weight: 500;
+        font-weight: 400;
         text-align: center;
+        
     }
 
     .form {
@@ -85,6 +86,10 @@ export default {
                 height: 25px;
                 background-color: white;
                 margin: 5px 0 15px 0;
+            }
+
+            label {
+                font-weight: 15px;
             }
         }
     }
