@@ -47,7 +47,9 @@ export default {
     data() {
         return {
             imgLink: "Lien de l'image",
-            revele: true
+            revele: false,
+
+            
             
         }
     },

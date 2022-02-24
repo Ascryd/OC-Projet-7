@@ -45,10 +45,14 @@
 
           &--delete {
             border: none;
-            background-color: rgb(255, 49, 49);
+            background-color: rgba(202, 0, 0, 0.993);
             color: black;
             font-weight: 550;
             text-align: center;
+
+            &:hover {
+              color: black;
+            }
           }
   }
 

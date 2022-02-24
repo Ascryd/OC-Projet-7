@@ -12,7 +12,7 @@
             <p class="userPost">{{item.userPost}}</p>
             <img class="postPic" src="@/assets/logo.png" alt="image du post">
 
-            <div class="interaction">
+            <!-- <div class="interaction">
                 <div class="dislike">
                     <button aria-pressed="false" class="dislike__button">
                         <font-awesome-icon class="like__icon" :icon="['fas', 'thumbs-up']"></font-awesome-icon>
@@ -21,7 +21,7 @@
                 </div>
                 <font-awesome-icon class="dislike_icon" :icon="['fas', 'thumbs-down']"></font-awesome-icon>
                 <font-awesome-icon class="comment_icon" :icon="['fas', 'comment']"></font-awesome-icon>
-            </div>
+            </div> -->
 
             <div class="comments">
                 <h2 class="comments_h2">Commentaires</h2>
@@ -41,7 +41,7 @@
                     <img class="postPic" src="@/assets/logo.png" alt="image du post">
                 </div>
                 
-                <div class="interaction">
+                <!-- <div class="interaction">
                     <div class="dislike">
                         <button aria-pressed="false" class="dislike__button">
                             <font-awesome-icon class="like__icon" :icon="['fas', 'thumbs-up']"></font-awesome-icon>
@@ -50,7 +50,7 @@
                     </div>
                     <font-awesome-icon class="dislike_icon" :icon="['fas', 'thumbs-down']"></font-awesome-icon>
                     <font-awesome-icon class="comment_icon" :icon="['fas', 'comment']"></font-awesome-icon>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
