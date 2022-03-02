@@ -9,7 +9,7 @@
                 <button class="btn">Supprimer</button>
             </div>
 
-            <p class="userPost">{{item.userPost}}</p>
+            <p class="userPost">{{item.message}}</p>
             <img class="postPic" src="@/assets/logo.png" alt="image du post">
 
             <!-- <div class="interaction">
@@ -66,43 +66,62 @@ export default {
 
     data() {
         return {
-            post: [
-                {
-                    firstName: "John",
-                    lastName: "Doe",
-                    timeStamp: "13 minutes",
-                    userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-                    id: 12,
-                    comments: [
-                        {
-                            firstName: "John",
-                            lastName: "Doe",
-                            timeStamp: "26 minutes",
-                            userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-                            id: 15,
-                        }, 
+            // post: [
+            //     {
+            //         firstName: "John",
+            //         lastName: "Doe",
+            //         timeStamp: "13 minutes",
+            //         userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+            //         id: 12,
+            //         comments: [
+            //             {
+            //                 firstName: "John",
+            //                 lastName: "Doe",
+            //                 timeStamp: "26 minutes",
+            //                 userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+            //                 id: 15,
+            //             }, 
 
-                        {
-                            firstName: "John",
-                            lastName: "Doe",
-                            timeStamp: "50 minutes",
-                            userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-                            id: 16,
-                        },
-                    ]
-                },
+            //             {
+            //                 firstName: "John",
+            //                 lastName: "Doe",
+            //                 timeStamp: "50 minutes",
+            //                 userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+            //                 id: 16,
+            //             },
+            //         ]
+            //     },
 
-                {
-                    firstName: "John",
-                    lastName: "Doe",
-                    timeStamp: "13 minutes",
-                    userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-                    id: 12
-                },
+            //     {
+            //         firstName: "John",
+            //         lastName: "Doe",
+            //         timeStamp: "13 minutes",
+            //         userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+            //         id: 12
+            //     },
 
-            ],
+            // ],
+            post: null
 
         }
+    },
+
+    mounted() {
+
+        const axios = require("axios")
+        axios.get("http://localhost:3000/api/post/")
+            .then(res => {
+                console.log(res.data.results)
+                this.post = res.data.results
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        
+    },
+
+    methods: {
     },
 }
 </script>

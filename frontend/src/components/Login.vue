@@ -41,9 +41,12 @@ export default {
   },
 
   methods: {
+
     changeTemplate () {
             this.$emit('emit-change-template')
-        }
+    }
+
+    
   }
 }
 

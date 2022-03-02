@@ -1,8 +1,10 @@
 const express = require ("express")
 const mysql = require("mysql")
 const db = require("./database/db.mysql.js")
+const path = require("path")
 
 const userRoutes = require("./routes/user")
+const postRoutes = require("./routes/post")
 
 
 
@@ -22,8 +24,12 @@ app.use((req, res, next) => {
     next()
   });
 
+
+app.use("/images", express.static(path.join(__dirname, 'images')))
+
 // On importe les routes/api
 app.use("/api/auth", userRoutes)
+app.use("/api/post", postRoutes)
 
 
 module.exports = app

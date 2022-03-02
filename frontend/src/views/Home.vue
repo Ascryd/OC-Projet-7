@@ -8,7 +8,7 @@
             <div class="post">
                 <div class="text">
                     <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
-                    <textarea placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
+                    <textarea id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
                 </div>
                 <div class="pics">
                     <div class="btnImport">
@@ -18,7 +18,7 @@
                     <img src="@/assets/logo.png" alt="image sélectionné">  <!-- remplacer par un v-bind avec une data -->
                 </div>
                 <div class="btnPost">
-                    <button class="btn">Poster</button>         
+                    <button @click="postMessage" class="btn">Poster</button>         
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
 <script>
 import Header from "@/components/Header.vue"
 import News from "@/components/News.vue"
-import AccountModale from "@/components/AccountModale.vue"
+import AccountModale from "@/components/AccountModale.vue" 
 
 
 export default {
@@ -59,6 +59,15 @@ export default {
         toggleModale () {
             this.revele = !this.revele
         },
+
+        postMessage () {
+            const axios = require("axios")
+            const message = document.querySelector("#post_text").value
+
+            axios.post("http://localhost:3000/api/post/", {
+                message
+            })
+        }
     },
     
 }
