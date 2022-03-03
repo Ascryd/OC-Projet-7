@@ -9,7 +9,7 @@ const auth = require("../middleware/auth")
 
 router.post("/",  PostController.postMessage)
 router.get("/",  PostController.getMessages)
-// router.delete("/:id", PostController.deleteMessage)
+router.delete("/:id", PostController.deleteMessage)
 
 
 module.exports = router

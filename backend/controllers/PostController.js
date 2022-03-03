@@ -28,3 +28,17 @@ exports.getMessages = (req, res) => {
     })
 }
 
+
+exports.deleteMessage = (req, res) => {
+    const id = req.params.id
+    const sql = "DELETE FROM post WHERE `id` = ?"
+    db.query(sql, id, (err, results, fields) => {
+        if (err){
+            console.log(err)
+            res.json({err})
+        } else {
+            console.log(results)
+            res.json({message: "Message supprimé", results})
+        }
+    })
+}

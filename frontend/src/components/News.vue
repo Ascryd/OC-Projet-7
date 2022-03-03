@@ -6,7 +6,7 @@
                 <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
                 <h2>{{item.firstName}} {{item.lastName}}</h2>
                 <p>Il y a {{item.timeStamp}}</p>
-                <button class="btn">Supprimer</button>
+                <button @click="deleteMessage(item.id)" class="btn">Supprimer</button>
             </div>
 
             <p class="userPost">{{item.message}}</p>
@@ -122,6 +122,12 @@ export default {
     },
 
     methods: {
+        deleteMessage (id) {
+            const axios = require("axios")
+            console.log(id)
+            axios.delete(`http://localhost:3000/api/post/${id}`)
+
+        }
     },
 }
 </script>
