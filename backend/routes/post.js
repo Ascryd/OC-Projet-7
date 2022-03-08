@@ -8,6 +8,7 @@ const auth = require("../middleware/auth")
 
 
 router.post("/",  PostController.postMessage)
+router.post("/comments", PostController.postComment)
 router.get("/",  PostController.getMessages)
 router.delete("/:id", PostController.deleteMessage)
 

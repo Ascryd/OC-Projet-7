@@ -7,8 +7,8 @@ exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10) // --------------> On hash le mdp avec Bcrypt (ici 10 fois)
     .then(hash => {
       const user = { 
-        prenom: req.body.prenom,
-        nom: req.body.nom,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: hash
       }   

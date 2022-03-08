@@ -65,7 +65,8 @@ export default {
             const message = document.querySelector("#post_text").value
 
             axios.post("http://localhost:3000/api/post/", {
-                message
+                message,
+                user_id: 2
             })
         }
     },

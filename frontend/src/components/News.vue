@@ -1,12 +1,12 @@
 <template >
     <div class="News">
-        <div v-for="item in post" :key="item.id" class="post">
+        <div v-for="item in messages" :key="item.id" class="post">
 
             <div class="info">
                 <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
                 <h2>{{item.firstName}} {{item.lastName}}</h2>
                 <p>Il y a {{item.timeStamp}}</p>
-                <button @click="deleteMessage(item.id)" class="btn">Supprimer</button>
+                <button @click="deleteMessage(item._id)" class="btn">Supprimer</button>
             </div>
 
             <p class="userPost">{{item.message}}</p>
@@ -27,8 +27,8 @@
                 <h2 class="comments_h2">Commentaires</h2>
                 <div class="input">
                     <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                    <textarea rows="2" placeholder="Répondez !" name="post" ></textarea>
-                    <font-awesome-icon class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                    <textarea id="postComment" rows="2" placeholder="Répondez !" name="post" ></textarea>
+                    <font-awesome-icon @click="postComment(item.id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
                 </div>
                 <div v-for="comment in item.comments" :key="comment.id" class="post_comments">
                     <div class="info">
@@ -37,7 +37,7 @@
                         <p>Il y a {{comment.timeStamp}}</p>
                         <button class="btn">Supprimer</button>
                     </div>
-                    <p class="userPost">{{comment.userPost}}</p>
+                    <p class="userPost">{{comment.message}}</p>
                     <img class="postPic" src="@/assets/logo.png" alt="image du post">
                 </div>
                 
@@ -58,6 +58,8 @@
 
 
 <script>
+import moment from 'moment'
+
 export default {
     name: "News",
     components: {
@@ -66,69 +68,78 @@ export default {
 
     data() {
         return {
-            // post: [
-            //     {
-            //         firstName: "John",
-            //         lastName: "Doe",
-            //         timeStamp: "13 minutes",
-            //         userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-            //         id: 12,
-            //         comments: [
-            //             {
-            //                 firstName: "John",
-            //                 lastName: "Doe",
-            //                 timeStamp: "26 minutes",
-            //                 userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-            //                 id: 15,
-            //             }, 
-
-            //             {
-            //                 firstName: "John",
-            //                 lastName: "Doe",
-            //                 timeStamp: "50 minutes",
-            //                 userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-            //                 id: 16,
-            //             },
-            //         ]
-            //     },
-
-            //     {
-            //         firstName: "John",
-            //         lastName: "Doe",
-            //         timeStamp: "13 minutes",
-            //         userPost: "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-            //         id: 12
-            //     },
-
-            // ],
-            post: null
-
+            messages: null
         }
     },
 
     mounted() {
-
+        
+        // Récupération des messages
         const axios = require("axios")
         axios.get("http://localhost:3000/api/post/")
             .then(res => {
-                console.log(res.data.results)
-                this.post = res.data.results
+                let originalPost = []
+                res.data.results.forEach((message) => {
+                    if (message.post_id === '') {
+                        originalPost.push(message)
+                        message["comments"] = []       // On crée un array vide pour y insérer les commentaires, reste à les envoyer dedans
+                    }                     
+                })
+                this.messages = originalPost
+                return res
             })
+
+
+
+            .then(function(res) {
+                res.data.results.forEach((message) => {
+                    if (message.post_id != "") {
+                        message["comments"] = []   // On ajoute un array de commentaires, au cas ou on voudrait ajouter de la profondeur aux commentaires
+                        res.data.results.forEach((item) => {
+                            if (message.post_id == item._id) {
+                                item.comments.push(message)
+                            }
+                        })
+                    }
+                })   
+            })
+             
             .catch(err => {
                 console.log(err)
             })
-
-        
+            let date = moment()
+            console.log(date)
     },
 
+
     methods: {
+
         deleteMessage (id) {
             const axios = require("axios")
             console.log(id)
             axios.delete(`http://localhost:3000/api/post/${id}`)
+        },
 
+
+        postComment (_id) {
+            console.log(_id)
+            const axios = require("axios")
+            const message = document.querySelector("#postComment").value
+            console.log(message)
+            axios.post("http://localhost:3000/api/post/comments", {
+                message,
+                post_id: _id,
+            })
+            .then(res => {
+                console.log("Commentaire enregistré" + res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     },
+
+
 }
 </script>
 

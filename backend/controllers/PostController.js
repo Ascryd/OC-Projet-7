@@ -2,7 +2,7 @@ const db = require ("../database/db.mysql")
 
 exports.postMessage = (req, res) => {
     const post = req.body
-    const sql = "INSERT INTO post SET ?"
+    const sql = "INSERT INTO messages SET ?"
     db.query(sql, post, (err, results, fields) => {
         if (err){
             console.log(err)
@@ -16,13 +16,13 @@ exports.postMessage = (req, res) => {
 
 
 exports.getMessages = (req, res) => {
-    const sql = "SELECT * FROM post ORDER BY eventDateTime DESC"
+    const sql = "SELECT * FROM messages WHERE post_id = '' OR post_id = '3' ORDER BY eventDateTime DESC"
     db.query(sql, (err, results, fields) => {
         if (err){
             console.log(err)
             res.json({err})
         } else {
-            console.log(results)
+            // console.log(results)
             res.json({message: "Messages récupérés", results})
         }
     })
@@ -31,7 +31,7 @@ exports.getMessages = (req, res) => {
 
 exports.deleteMessage = (req, res) => {
     const id = req.params.id
-    const sql = "DELETE FROM post WHERE `id` = ?"
+    const sql = "DELETE FROM messages WHERE `_id` = ?"
     db.query(sql, id, (err, results, fields) => {
         if (err){
             console.log(err)
@@ -39,6 +39,21 @@ exports.deleteMessage = (req, res) => {
         } else {
             console.log(results)
             res.json({message: "Message supprimé", results})
+        }
+    })
+}
+
+exports.postComment = (req, res) => {
+    
+    const comment = req.body
+    const sql = "INSERT INTO messsages SET ?"
+    db.query(sql, comment, (err, results, fields) => {
+        if (err){
+            console.log(err)
+            res.json({err})
+        } else {
+            console.log(results)
+            res.json({message: "Commentaire enregistré"})
         }
     })
 }

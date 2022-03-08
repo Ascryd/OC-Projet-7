@@ -5,9 +5,9 @@
 
       <h1>Inscription</h1>
       <div class="form">
-        <div class="champs" v-for="item in labels" :key="item">
-          <label :for="item" >Entrez votre {{ item }} :</label>
-          <input class="input_data" :id="item" type="text" required>
+        <div class="champs" v-for="item in input" :key="item[0]">
+          <label :for="item.label" >Entrez votre {{ item.label }} :</label>
+          <input v-model="item.value" class="input_data" :id="item.label" type="text" required>
         </div>
       </div>
 
@@ -37,30 +37,40 @@ export default {
 
   data() {
     return {
-      labels: ["prénom", "nom", "email", "mot de passe"],
+      input: [
+        { label: "Prénom", value: ""},
+        { label: "Nom", value: ""},
+        { label: "email", value: ""},
+        { label: "Mot de passe", value: ""},
+      ],
       
     }
   },
 
+
   methods : {
+
     emitChangeTemplate () {
             this.$emit('emit-change-template')
     },
 
     register () {
-      // const axios = require("axios")
-      let input = document.querySelector(".input_data")
-      console.log(input)
-      // axios.post("http://localhost:3000/api/auth/signup", {
-        
-      // })
-        
+      const axios = require("axios")
+      axios.post("http://localhost:3000/api/auth/signup", {
+        firstName: this.input[0].value,
+        lastName: this.input[1].value,
+        email: this.input[2].value,
+        password: this.input[3].value
+      })
+      .then(res => {
+          console.log("Donnés envoyées" + res)
+      })
+      .catch(err => {
+          console.log("Register failed" + err.response.data)
+      }) 
     }
-
   },
-
-
- }
+}
 
 </script>
 
