@@ -32,6 +32,7 @@
 import Header from "@/components/Header.vue"
 import News from "@/components/News.vue"
 import AccountModale from "@/components/AccountModale.vue" 
+import moment from 'moment'
 
 
 export default {
@@ -63,10 +64,14 @@ export default {
         postMessage () {
             const axios = require("axios")
             const message = document.querySelector("#post_text").value
+            let date = moment.utc()
+            console.log(date)
 
             axios.post("http://localhost:3000/api/post/", {
                 message,
-                user_id: 2
+                // post_id: "null",
+                user_id: 2,
+                eventDateTime: date
             })
         }
     },

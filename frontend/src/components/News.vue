@@ -28,7 +28,7 @@
                 <div class="input">
                     <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
                     <textarea id="postComment" rows="2" placeholder="Répondez !" name="post" ></textarea>
-                    <font-awesome-icon @click="postComment(item.id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                    <font-awesome-icon @click="postComment(item._id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
                 </div>
                 <div v-for="comment in item.comments" :key="comment.id" class="post_comments">
                     <div class="info">
@@ -68,6 +68,7 @@ export default {
 
     data() {
         return {
+            moment: moment(),
             messages: null
         }
     },
@@ -77,38 +78,28 @@ export default {
         // Récupération des messages
         const axios = require("axios")
         axios.get("http://localhost:3000/api/post/")
+
             .then(res => {
-                let originalPost = []
+                let allMessages = []
                 res.data.results.forEach((message) => {
-                    if (message.post_id === '') {
-                        originalPost.push(message)
-                        message["comments"] = []       // On crée un array vide pour y insérer les commentaires, reste à les envoyer dedans
-                    }                     
+                    message["comments"] = []
+                    allMessages.push(message)
+
+                   res.data.results.forEach((comment) => {
+                       if (message._id == comment.post_id) {                       
+                        message.comments.push(comment)
+                        let index = allMessages.indexOf(comment)
+                        allMessages.splice(index, 1)
+                       }
+                   })
                 })
-                this.messages = originalPost
-                return res
-            })
-
-
-
-            .then(function(res) {
-                res.data.results.forEach((message) => {
-                    if (message.post_id != "") {
-                        message["comments"] = []   // On ajoute un array de commentaires, au cas ou on voudrait ajouter de la profondeur aux commentaires
-                        res.data.results.forEach((item) => {
-                            if (message.post_id == item._id) {
-                                item.comments.push(message)
-                            }
-                        })
-                    }
-                })   
+                
+                this.messages = allMessages
             })
              
             .catch(err => {
                 console.log(err)
             })
-            let date = moment()
-            console.log(date)
     },
 
 
@@ -123,12 +114,13 @@ export default {
 
         postComment (_id) {
             console.log(_id)
-            const axios = require("axios")
             const message = document.querySelector("#postComment").value
             console.log(message)
-            axios.post("http://localhost:3000/api/post/comments", {
+            const axios = require("axios")
+            axios.post("http://localhost:3000/api/post/", {
                 message,
                 post_id: _id,
+                user_id: 1
             })
             .then(res => {
                 console.log("Commentaire enregistré" + res)

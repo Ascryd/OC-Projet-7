@@ -16,7 +16,7 @@ exports.postMessage = (req, res) => {
 
 
 exports.getMessages = (req, res) => {
-    const sql = "SELECT * FROM messages WHERE post_id = '' OR post_id = '3' ORDER BY eventDateTime DESC"
+    const sql = "SELECT * FROM messages ORDER BY _id DESC"
     db.query(sql, (err, results, fields) => {
         if (err){
             console.log(err)
@@ -43,17 +43,17 @@ exports.deleteMessage = (req, res) => {
     })
 }
 
-exports.postComment = (req, res) => {
+// exports.postComment = (req, res) => {
     
-    const comment = req.body
-    const sql = "INSERT INTO messsages SET ?"
-    db.query(sql, comment, (err, results, fields) => {
-        if (err){
-            console.log(err)
-            res.json({err})
-        } else {
-            console.log(results)
-            res.json({message: "Commentaire enregistré"})
-        }
-    })
-}
+//     const comment = req.body
+//     const sql = "INSERT INTO messsages SET ?"
+//     db.query(sql, comment, (err, results, fields) => {
+//         if (err){
+//             console.log(err)
+//             res.json({err})
+//         } else {
+//             console.log(results)
+//             res.json({message: "Commentaire enregistré"})
+//         }
+//     })
+// }
