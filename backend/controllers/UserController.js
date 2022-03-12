@@ -43,15 +43,15 @@ exports.login = (req, res) => {
         res.json({err})
       } else {
         console.log(results)
-        // res.json({message: "Email trouvé !", results})
         
-        bcrypt.compare(req.body.password, results[0].password)
+        bcrypt.compare(req.body.password, results[0].password)  // ??
           .then (valid => {
             if (!valid) {
               return res.status(401).json ({ success: false, error: "Mot de passe incorect !"})
             } else {
               console.log("connexion autorisé")
               res.status(200).json ({
+                // infos: results[0], // récupérer les infos du compte ??
                 userId: results[0]._id,
                 token: jwt.sign (
                   { userId: results[0]._id },

@@ -51,7 +51,7 @@ export default {
   methods : {
 
     emitChangeTemplate () {
-            this.$emit('emit-change-template')
+      this.$emit('emit-change-template')
     },
 
     register () {

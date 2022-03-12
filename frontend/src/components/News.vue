@@ -1,12 +1,12 @@
 <template >
     <div class="News">
-        <div v-for="item in messages" :key="item.id" class="post">
+        <div v-for="(item, index) in messages" :key="index" class="post">
 
             <div class="info">
                 <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
                 <h2>{{item.firstName}} {{item.lastName}}</h2>
-                <p>Il y a {{item.timeStamp}}</p>
-                <button @click="deleteMessage(item._id)" class="btn">Supprimer</button>
+                <p>{{item.eventDateTime}}</p>
+                <button @click="deleteMessage(item.message_id)" class="btn">Supprimer</button>
             </div>
 
             <p class="userPost">{{item.message}}</p>
@@ -27,15 +27,15 @@
                 <h2 class="comments_h2">Commentaires</h2>
                 <div class="input">
                     <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                    <textarea id="postComment" rows="2" placeholder="Répondez !" name="post" ></textarea>
-                    <font-awesome-icon @click="postComment(item._id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                    <textarea v-model="item.inputComment" id="commentTextArea" rows="2" placeholder="Répondez !" name="post"></textarea>
+                    <font-awesome-icon @click="postComment(item.message_id, index)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
                 </div>
                 <div v-for="comment in item.comments" :key="comment.id" class="post_comments">
                     <div class="info">
                         <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
                         <h2>{{comment.firstName}} {{comment.lastName}}</h2>
-                        <p>Il y a {{comment.timeStamp}}</p>
-                        <button class="btn">Supprimer</button>
+                        <p>{{comment.eventDateTime}}</p>
+                        <button @click="deleteMessage(comment.message_id)" class="btn">Supprimer</button>
                     </div>
                     <p class="userPost">{{comment.message}}</p>
                     <img class="postPic" src="@/assets/logo.png" alt="image du post">
@@ -69,7 +69,8 @@ export default {
     data() {
         return {
             moment: moment(),
-            messages: null
+            messages: null,
+            // commentTextArea: item.key,
         }
     },
 
@@ -81,25 +82,34 @@ export default {
 
             .then(res => {
                 let allMessages = []
+                moment.locale("fr")
+                
                 res.data.results.forEach((message) => {
+                    let localTimeDiff = moment().utcOffset()
+                    message.eventDateTime = moment(message.eventDateTime).add(localTimeDiff, "minutes").fromNow()
                     message["comments"] = []
+                    message["inputComment"] = ""
                     allMessages.push(message)
+                    // console.log(allMessages)
 
                    res.data.results.forEach((comment) => {
-                       if (message._id == comment.post_id) {                       
+                       if (message.message_id == comment.post_id) {                       
                         message.comments.push(comment)
-                        let index = allMessages.indexOf(comment)
-                        allMessages.splice(index, 1)
+                        // console.log(allMessages);
+                        let index = allMessages.indexOf(comment) // Ici sont supprimé bcp trop de messages, trouver un moyen de supprimer les messages en double.
+                        allMessages.splice(index, 1)  // le pb viens peut etre de l'id en double !(PS: c'était ça)!
                        }
                    })
                 })
-                
+                console.log(allMessages)
                 this.messages = allMessages
             })
              
             .catch(err => {
                 console.log(err)
             })
+
+            
     },
 
 
@@ -112,15 +122,19 @@ export default {
         },
 
 
-        postComment (_id) {
-            console.log(_id)
-            const message = document.querySelector("#postComment").value
-            console.log(message)
+        postComment (_id, index) {
+            // const message = document.getElementById("#commentTextArea") // récupère le premier textarea, comment sélectionner un seul élément de la boucle ??
+            const message = this.messages[index].inputComment
+            console.log(message);
+            console.log(index)
+            // console.log(message)
+            let date = moment.utc()
             const axios = require("axios")
             axios.post("http://localhost:3000/api/post/", {
                 message,
                 post_id: _id,
-                user_id: 1
+                user_id: 1,
+                eventDateTime: date
             })
             .then(res => {
                 console.log("Commentaire enregistré" + res)

@@ -12,10 +12,9 @@
                 </div>
                 <div class="pics">
                     <div class="btnImport">
-                    <button class="importImage"><font-awesome-icon :icon="['fas', 'image']"></font-awesome-icon></button>
-                    <a :href="imgLink"> {{imgLink}}</a>
+                    <input type="file" class="importImage" @change="previewPicture()">
                     </div>
-                    <img src="@/assets/logo.png" alt="image sélectionné">  <!-- remplacer par un v-bind avec une data -->
+                    <img src="#" id="image" alt="image sélectionné">  <!-- remplacer par un v-bind avec une data -->
                 </div>
                 <div class="btnPost">
                     <button @click="postMessage" class="btn">Poster</button>         
@@ -64,16 +63,30 @@ export default {
         postMessage () {
             const axios = require("axios")
             const message = document.querySelector("#post_text").value
+            console.log(message);
             let date = moment.utc()
             console.log(date)
+            const image = document.querySelector(".importImage").value
+            console.log(image);
 
             axios.post("http://localhost:3000/api/post/", {
                 message,
-                // post_id: "null",
                 user_id: 2,
-                eventDateTime: date
+                eventDateTime: date,
+                image
+
             })
-        }
+        },
+
+        // previewPicture () {
+        //     let inputImage = document.querySelector(".importImage").files
+        //     console.log(inputImage)
+
+        //     let image = document.querySelector("#image")
+
+        //     image.src = "URL.createObjectURL(inputImage)"
+        //     console.log(image)
+        // }
     },
     
 }
