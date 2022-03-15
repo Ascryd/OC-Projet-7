@@ -27,7 +27,7 @@
                 <h2 class="comments_h2">Commentaires</h2>
                 <div class="input">
                     <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                    <textarea v-model="item.inputComment" id="commentTextArea" rows="2" placeholder="Répondez !" name="post"></textarea>
+                    <textarea v-model="item.inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
                     <font-awesome-icon @click="postComment(item.message_id, index)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
                 </div>
                 <div v-for="comment in item.comments" :key="comment.id" class="post_comments">
@@ -97,7 +97,7 @@ export default {
                         message.comments.push(comment)
                         // console.log(allMessages);
                         let index = allMessages.indexOf(comment) // Ici sont supprimé bcp trop de messages, trouver un moyen de supprimer les messages en double.
-                        allMessages.splice(index, 1)  // le pb viens peut etre de l'id en double !(PS: c'était ça)!
+                        allMessages.splice(index, 1)  // le pb viens peut etre de l'id en double (PS: c'était ça)
                        }
                    })
                 })
