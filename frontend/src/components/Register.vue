@@ -5,7 +5,7 @@
 
       <h1>Inscription</h1>
       <div class="form">
-        <div class="champs" v-for="item in input" :key="item[0]">
+        <div class="champs" v-for="item in input" :key="item.label">
           <label :for="item.label" >Entrez votre {{ item.label }} :</label>
           <input v-model="item.value" class="input_data" :id="item.label" type="text" required>
         </div>
@@ -16,7 +16,10 @@
         <img src="@/assets/logo.png" alt="Photo de profil">
       </div>
       
-      <button @click="register" class="btn btn_connect" >Inscription</button>
+      <button @click="register" class="btn btn_connect" >
+        <span v-if ="status == 'loading'" >Création du compte...</span>
+        <span v-else>Inscription</span>
+      </button>
 
       <div class="connect_link">
       <ConnectLink button_name="J'ai déjà un compte" />
@@ -28,6 +31,8 @@
 
 <script>
 import ConnectLink from "@/components/ConnectLink.vue"
+
+import {mapState} from "vuex"
 
 export default {
   name: "Register",
@@ -47,6 +52,10 @@ export default {
     }
   },
 
+  computed : {
+    ...mapState(['status'])
+  },
+
 
   methods : {
 
@@ -55,20 +64,21 @@ export default {
     },
 
     register () {
-      const axios = require("axios")
-      axios.post("http://localhost:3000/api/auth/signup", {
+      // const self = this
+      this.$store.dispatch("register", {
         firstName: this.input[0].value,
         lastName: this.input[1].value,
         email: this.input[2].value,
         password: this.input[3].value
       })
       .then(res => {
-          console.log("Donnés envoyées" + res)
+        console.log(res);
+        // this.$router.go()
       })
       .catch(err => {
-          console.log("Register failed" + err.response.data)
-      }) 
-    }
+        console.log(err);
+      })
+    },
   },
 }
 

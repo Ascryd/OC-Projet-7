@@ -37,6 +37,7 @@ exports.signup = (req, res) => {
 
 exports.login = (req, res) => {
     const sql = "SELECT * FROM user WHERE email = ?"
+    console.log(req.body.email);
     db.query(sql, req.body.email, (err, results, fields) => {
       if (err){
         console.log(err)
@@ -44,14 +45,13 @@ exports.login = (req, res) => {
       } else {
         console.log(results)
         
-        bcrypt.compare(req.body.password, results[0].password)  // ??
+        bcrypt.compare(req.body.password, results[0].password)
           .then (valid => {
             if (!valid) {
               return res.status(401).json ({ success: false, error: "Mot de passe incorect !"})
             } else {
               console.log("connexion autorisé")
               res.status(200).json ({
-                // infos: results[0], // récupérer les infos du compte ??
                 userId: results[0]._id,
                 token: jwt.sign (
                   { userId: results[0]._id },
@@ -66,3 +66,16 @@ exports.login = (req, res) => {
     })
 }
     
+// exports.infos = (req, res) => {
+//   const id = req.params.id
+//   const sql = "SELECT * FROM user WHERE `_id` = ?"
+//   db.query(sql, id, (err, results, fields) => {
+//     if (err){
+//         console.log(err)
+//         res.json({err})
+//     } else {
+//         console.log(results)
+//         res.json({message: "Infos récupérées", results})
+//     }
+//   })
+// }
