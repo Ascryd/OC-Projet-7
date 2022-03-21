@@ -26,7 +26,7 @@
                 </ul>
             </div>
 
-            <button class="btn btn--light">Supprimer mon compte</button>
+            <button @click="deleteUser" class="btn btn--light">Supprimer mon compte</button>
         </div>
         
     </div>
@@ -66,7 +66,10 @@ export default {
     },
 
     methods: {
-        
+        deleteUser () {
+            this.$store.dispatch("deleteUser")
+            this.$router.push("/")
+        }
     },
 }
 </script>

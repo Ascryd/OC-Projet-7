@@ -59,7 +59,6 @@ export default new Vuex.Store({
     },
 
     logout (state) {
-      console.log('on atteint le store');
       state.user = {
         id: -1,
         token: ''
@@ -123,6 +122,11 @@ export default new Vuex.Store({
           console.log(err);
         })
     },
+
+    deleteUser ({commit}) {
+      axios.delete('http://localhost:3000/api/auth/delete')
+      commit('logout')
+    }
 
     
 

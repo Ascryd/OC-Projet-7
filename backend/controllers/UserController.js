@@ -87,5 +87,18 @@ exports.infos = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  // const sql = 
+  const sql = "DELETE FROM user WHERE _id = ?"
+  const token = req.headers.authorization
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
+  const userId = decodedToken.userId
+  db.query(sql, userId, (err, results, fields) => {
+    if (err){
+      console.log(err)
+      res.json({err})
+  } else {
+      console.log(results)
+      res.json({message: "Compte supprimé", results})  
+  }
+  })
+
 }
