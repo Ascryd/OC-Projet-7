@@ -4,15 +4,35 @@ const axios = require('axios')
 
 Vue.use(Vuex)
 
+let user = localStorage.getItem('user')
+if (!user) {
+  user = {
+    id: -1,
+    token: ''
+  }
+} else {
+  try {
+    user = JSON.parse(user)
+    axios.defaults.headers.common['Authorization'] = user.token
+  } catch (err) {
+    user = {
+      id: -1,
+      token: ''
+    }
+  }
+}
+
 export default new Vuex.Store({
 
   state: {
     haveAccount: true,
     status: '',
-    user: {
-      id: -1,
-      token: ""
-    },
+    user: user,
+    userInfos : {
+      firstName: "",
+      lastName: "",
+      email: "",
+    }
   },
 
   mutations: {
@@ -30,7 +50,22 @@ export default new Vuex.Store({
 
     logUser (state, user) {
       state.user = user
-    }
+      localStorage.setItem('user', JSON.stringify(user))
+      axios.defaults.headers.common['Authorization'] = user.token
+    },
+
+    userInfos (state, userInfos) {
+      state.userInfos = userInfos
+    },
+
+    logout (state) {
+      console.log('on atteint le store');
+      state.user = {
+        id: -1,
+        token: ''
+      }
+      localStorage.removeItem('user')
+    },
 
     
   },
@@ -44,7 +79,7 @@ export default new Vuex.Store({
       }
     },
 
-    login ({commit}, userInfos) {    //Remettre resolve, reject pour envoyer la promise vers le composant login (pareil pour register)
+    login ({commit}, userInfos) {
       commit("setStatus", "loading")
       return new Promise((resolve, reject) => {
         axios.post("http://localhost:3000/api/auth/login", userInfos)
@@ -75,7 +110,24 @@ export default new Vuex.Store({
         })
       })
     },
+
+    getUserInfos ({commit}) {
+      axios.get(`http://localhost:3000/api/auth/infos`,)  
+        .then(res => {
+          // console.log(res);
+          commit("userInfos", res.data.results[0])    // Ici on recup un tableau avec un seul objet, Pourquoi ??
+          console.log(res.data.results[0]);
+          
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    },
+
+    
+
   },
+
 
   modules: {
 

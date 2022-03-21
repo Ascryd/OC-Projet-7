@@ -18,15 +18,15 @@ exports.signup = (req, res) => {
     .then(user => {
       console.log(user)
       const sql = "INSERT INTO user SET ?"
-      db.query(sql, user, (err, results, fields) => {
-          if (err){
-            console.log(err)
-            res.json({err})
-          } else {
-            console.log(results)
-            res.json({message: "Utilisateur enregistré"})
-          }
-      })
+        db.query(sql, user, (err, results, fields) => {
+            if (err) {
+              console.log(err)
+              res.status(500).json({err})
+            } else {
+              console.log(results)
+              res.json({message: "Utilisateur enregistré"})
+            }
+        })
     })
     .catch(error => res.status(500).json({ error })) // --------------> Message si échec
 }
@@ -39,11 +39,15 @@ exports.login = (req, res) => {
     const sql = "SELECT * FROM user WHERE email = ?"
     console.log(req.body.email);
     db.query(sql, req.body.email, (err, results, fields) => {
-      if (err){
+      console.log(results);
+      if (err) {
         console.log(err)
-        res.json({err})
+        res.status(500).json({err})
+      } else if (!results[0]) { // PB ici !!!!!!!!!!! Fonctionne mais plus simple ou plus propre possible ? 
+        console.log(err + " aucune adresse mail trouvé !")
+        res.status(500).json({err})
       } else {
-        console.log(results)
+        console.log("Le résultat de la requête :  " + JSON.stringify(results))
         
         bcrypt.compare(req.body.password, results[0].password)
           .then (valid => {
@@ -61,21 +65,27 @@ exports.login = (req, res) => {
               })
             }
           })
-          .catch(error => res.status(501).json({ error }))
+          .catch(error => res.status(500).json({ error }))
       }
     })
 }
-    
-// exports.infos = (req, res) => {
-//   const id = req.params.id
-//   const sql = "SELECT * FROM user WHERE `_id` = ?"
-//   db.query(sql, id, (err, results, fields) => {
-//     if (err){
-//         console.log(err)
-//         res.json({err})
-//     } else {
-//         console.log(results)
-//         res.json({message: "Infos récupérées", results})
-//     }
-//   })
-// }
+
+exports.infos = (req, res) => {
+  const token = req.headers.authorization
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
+  const userId = decodedToken.userId
+  const sql = "SELECT firstName, lastName, email FROM user WHERE `_id` = ?"
+  db.query(sql, userId, (err, results, fields) => {
+    if (err){
+        console.log(err)
+        res.json({err})
+    } else {
+        console.log(results)
+        res.json({message: "Infos récupérées", results})  
+    }
+  })
+}
+
+exports.delete = (req, res) => {
+  // const sql = 
+}

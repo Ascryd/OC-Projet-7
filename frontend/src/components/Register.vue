@@ -16,6 +16,7 @@
         <img src="@/assets/logo.png" alt="Photo de profil">
       </div>
       
+      <p class="error" v-if ="status == 'error_create'">Adresse email déjà utilisée</p>
       <button @click="register" class="btn btn_connect" >
         <span v-if ="status == 'loading'" >Création du compte...</span>
         <span v-else>Inscription</span>
@@ -89,6 +90,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-bottom: 10px;
 
     img {
       width: 100px;

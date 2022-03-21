@@ -11,7 +11,7 @@
         </div>
       </div>
       
-      <p class="error" v-if ="status == 'error_login'"> Adresse email et/ou mot de passe invalide</p>
+      <p class="error" v-if ="status == 'error_login'">Adresse email et/ou mot de passe invalide</p>
       <button @click="login" class="btn btn_connect">
         <span v-if ="status == 'loading'" >Connexion en cours...</span>
         <span v-else>Connexion</span>
@@ -39,7 +39,6 @@ export default {
   name: 'Login',
   components: {
     ConnectLink,
-    // Register
   },
 
   data() {
@@ -58,18 +57,18 @@ export default {
   methods: {
 
     changeTemplate () {
-            this.$emit('emit-change-template')
+        this.$emit('emit-change-template')
     },
 
     login () {
       const self = this
       this.$store.dispatch("login", {
         email: this.input[0].value,
-        password: this.input[1].value
+        password: this.input[1].value,
       }) 
       .then(res => {
         console.log(res)
-        self.$router.push('Home')
+        self.$router.push('/home')
       })
       .catch(err => {
         console.log(err);
@@ -87,15 +86,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.error {
-  // background-color: blue;
-  text-align: center;
-  background-color: rgb(179, 0, 0);
-  color: rgb(255, 255, 255);
-  padding: 5px 25px 5px 25px;
-  margin-bottom: 20px;
-  
-}
 
 </style>

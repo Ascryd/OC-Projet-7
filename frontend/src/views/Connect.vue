@@ -35,6 +35,13 @@ export default {
         }
     },
 
+    mounted() {
+        if (this.$store.state.user.id != -1) {   // Test la validité de la session
+            this.$router.push("/home")
+            return
+        }
+    },
+
 }
 </script>
 
@@ -87,6 +94,14 @@ export default {
                 font-weight: 15px;
             }
         }
+    }
+
+    .error {
+        text-align: center;
+        background-color: rgb(179, 0, 0);
+        color: rgb(255, 255, 255);
+        padding: 5px 25px 5px 25px;
+        margin-bottom: 20px;
     }
 
     .btn_connect {

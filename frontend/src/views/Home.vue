@@ -47,10 +47,18 @@ export default {
     data() {
         return {
             revele: false,
-
-            
-            
         }
+    },
+
+    mounted() {
+        if (this.$store.state.user.id == -1) {   // Test la validité de la session
+            this.$router.push("/")
+            return
+        }
+
+        this.$store.dispatch("getUserInfos")
+
+
     },
 
     methods: {
@@ -76,6 +84,8 @@ export default {
 
             })
         },
+
+        
 
         // previewPicture () {
         //     let inputImage = document.querySelector(".importImage").files

@@ -20,9 +20,9 @@
                 <img src="@/assets/logo.png" alt="photo de profil">
 
                 <ul class="infos">
-                    <div class="bloc_info"><li class="info">{{User.firstName}}</li></div>
-                    <div class="bloc_info"><li class="info">{{User.lastName}}</li></div>
-                    <div class="bloc_info"><li class="info">{{User.email}}</li></div>
+                    <div class="bloc_info"><li class="info">{{userInfos.firstName}}</li></div>
+                    <div class="bloc_info"><li class="info">{{userInfos.lastName}}</li></div>
+                    <div class="bloc_info"><li class="info">{{userInfos.email}}</li></div>
                 </ul>
             </div>
 
@@ -34,6 +34,7 @@
 
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
     name: "AccountModale",
@@ -55,6 +56,13 @@ export default {
 
             
         }
+    },
+
+    computed: {
+
+        ...mapState ([
+            'userInfos'
+        ]),
     },
 
     methods: {

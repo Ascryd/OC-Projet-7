@@ -19,13 +19,12 @@ exports.postMessage = (req, res) => {
 
 exports.getMessages = (req, res) => {
     const sql = "SELECT * FROM messages INNER JOIN user ON user._id = messages.user_id ORDER BY messages.message_id DESC"
-    // const sql = "SELECT * FROM messages ORDER BY _id DESC" // Ici ça marche (sans les la table user)
     db.query(sql, (err, results, fields) => {
         if (err){
             console.log(err)
             res.json({err})
         } else {
-            // console.log(results)
+            console.log(results)
             res.json({message: "Messages récupérés", results})
         }
     })
