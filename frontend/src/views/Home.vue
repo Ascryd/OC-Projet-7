@@ -7,7 +7,7 @@
         <div class="section">
             <NewPost />
             
-            <News />
+            <PostList />
             
         </div>
 
@@ -16,8 +16,8 @@
 
 
 <script>
+import PostList from "@/components/PostList.vue"
 import Header from "@/components/Header.vue"
-import News from "@/components/News.vue"
 import AccountModale from "@/components/AccountModale.vue" 
 // import moment from 'moment'
 
@@ -28,7 +28,7 @@ export default {
     name: "Home",
     components: {
         Header,
-        News,
+        PostList,
         AccountModale,
         NewPost,
     },
