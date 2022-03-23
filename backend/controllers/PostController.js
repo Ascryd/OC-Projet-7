@@ -18,7 +18,7 @@ exports.postMessage = (req, res) => {
 
 
 exports.getMessages = (req, res) => {
-    const sql = "SELECT * FROM messages INNER JOIN user ON user._id = messages.user_id ORDER BY messages.message_id DESC"
+    const sql = "SELECT * FROM messages INNER JOIN user ON user._id = messages.user_id ORDER BY messages.message_id"
     db.query(sql, (err, results, fields) => {
         if (err){
             console.log(err)

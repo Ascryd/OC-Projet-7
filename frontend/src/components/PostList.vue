@@ -30,8 +30,8 @@ export default {
             let localTimeDiff = moment().utcOffset()
             moment.locale("fr")
             
-            let reverseArray = res.data.results.reverse()
-            reverseArray.forEach(element => {
+            // let reverseArray = res.data.results.reverse()
+            res.data.results.forEach(element => {
                 if (element.post_id == "") {
                     element["comments"] = []
                     element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
@@ -42,13 +42,13 @@ export default {
                     let id = element.post_id
                     // console.log(id);
                     let reference = res.data.results.find (ref => ref.message_id == id)
-                    reference.comments.push(element)
+                    reference.comments.unshift(element)
                     // console.log(reference);
                 }                
             });
 
             console.log(this.messages);
-            this.messages.reverse()
+            this.messages.reverse() // On fait le reverse en JS pour trier les données dans le bon ordre.
 
         })
         .catch (err => {

@@ -1,6 +1,6 @@
 <template lang="fr">
 
-    <div class="Post">
+    <div class="Post" >
 
         <div class="originalPost">
             <div class="info">
@@ -20,8 +20,8 @@
             <h2 class="comments_h2">Commentaires</h2>
             <div class="input">
                 <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                <textarea rows="2" placeholder="Répondez !" name="post"></textarea>
-                <font-awesome-icon @click="postComment(item.message_id, index)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                <textarea class="inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
+                <font-awesome-icon @click="postComment(message.message_id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
             </div>
             <div v-for="comment in message.comments" :key="comment.id" class="post_comments">
                 <div class="info">
@@ -44,6 +44,9 @@
 
 
 <script>
+import moment from 'moment'
+import { mapState } from 'vuex'
+
 export default {
     name: "Post",
     components: {
@@ -56,6 +59,42 @@ export default {
         return {
             
         }
+    },
+
+    computed: {
+        ...mapState(['user'])
+    },
+
+    methods: {
+        postComment (id) {
+            console.log(id);
+            const message = document.querySelector(".inputComment").value // ah bon ?
+            console.log(message);
+            const date = moment.utc()
+            console.log(date);
+            const user_id = this.user.userId
+            console.log(user_id);
+
+            // const axios = require("axios")
+            // axios.post("http://localhost:3000/api/post/", {
+            //     message,
+            //     post_id: id,
+            //     user_id,
+            //     eventDateTime: date
+            // })
+            // .then(res => {
+            //     console.log("Commentaire enregistré" + res)
+            // })
+            // .catch(err => {
+            //     console.log(err)
+            // })
+        },
+
+        deleteMessage (id) {
+            const axios = require("axios")
+            console.log(id)
+            axios.delete(`http://localhost:3000/api/post/${id}`)
+        },
     },
 
 }
