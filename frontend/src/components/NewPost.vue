@@ -8,9 +8,9 @@
                 </div>
                 <div class="pics">
                     <div class="btnImport">
-                    <input type="file" class="importImage" @change="previewPicture()">
+                        <input type="file" class="importImage" @change="previewPicture()">
                     </div>
-                    <img src="#" id="image" alt="image sélectionné">  <!-- remplacer par un v-bind avec une data -->
+                    <!-- <img src="#" id="image" alt="image sélectionné">  remplacer par un v-bind avec une data -->
                 </div>
                 <div class="btnPost">
                     <button @click="postMessage" class="btn">Poster</button>         
@@ -67,6 +67,7 @@ export default {
             background-color: rgb(34, 33, 33);
             padding: 15px 15px 15px 15px;
             color: white;
+            margin-bottom: 15px;
 
             .text {
                 display: flex;
@@ -75,7 +76,7 @@ export default {
                 padding-bottom: 7px;
 
                 textarea {
-                    background-color: rgb(34, 33, 33);
+                    background-color: rgb(61, 61, 61);
                     min-width: 200px;
                     width: 80%;
                     resize: none; 
@@ -85,8 +86,12 @@ export default {
                     padding: 5px 10px 5px 10px;
                     color: white;
 
+                    &::placeholder {
+                        color: #FFD7D7;
+                    }
+
                     &:focus {
-                        outline: solid 2px #FFD7D7
+                        outline: solid 2px #ffd7d7; 
                     }
                 }
             }

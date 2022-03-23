@@ -5,24 +5,15 @@
         <div class="card">
             <h2>Mon compte</h2>
             <button @click="toggleModale" class="btn--close">X</button>
-            <!-- <div class="modifier">
-                <h3>Modifier mes informations</h3>
 
-                <div class="form">
-                    <div class="champs" v-for="item in labels" :key="item">
-                        <label :for="item" >Entrez votre nouveau {{ item }} :</label>
-                        <input :id="item" type="text" required>
-                    </div>
-                </div>
-            </div> -->
             <div class="profil">
 
                 <img src="@/assets/logo.png" alt="photo de profil">
 
                 <ul class="infos">
-                    <div class="bloc_info"><li class="info">{{userInfos.firstName}}</li></div>
-                    <div class="bloc_info"><li class="info">{{userInfos.lastName}}</li></div>
-                    <div class="bloc_info"><li class="info">{{userInfos.email}}</li></div>
+                    <li class="info">{{userInfos.firstName}}</li>
+                    <li class="info">{{userInfos.lastName}}</li>
+                    <li class="info info--noBorder">{{userInfos.email}}</li>
                 </ul>
             </div>
 
@@ -121,6 +112,10 @@ export default {
                 position: absolute;
                 right: 7px;
                 top: 7px;
+
+                &:hover {
+                    cursor: pointer;
+                }
             }
 
             .profil {
@@ -138,18 +133,22 @@ export default {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    gap: 20px;
+                    gap: 15px;
 
-                    .bloc__info {
-                        border: black solid 1px;
+                    .info {
+                        border-bottom: solid black 2px;
+                        padding-bottom: 15px;
+                        font-size: 18px;
+                        width: 100%;
+                        text-align: center;
                         
+                        &--noBorder {
+                            border: none;
+                            padding: 0;
 
-                        .info {
-                            border-bottom: solid black 2px;
-                            font-size: 18px;
-                            
                         }
                     }
+                    
                 }
 
             }

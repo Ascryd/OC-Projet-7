@@ -145,7 +145,7 @@ export default {
         }
 
         .comments {
-            margin: 25px 25px 0 20px;
+            padding: 25px 25px 0 20px;
 
             .comments_h2 {
                 margin-bottom: 15px;
@@ -160,17 +160,22 @@ export default {
                 padding-bottom: 25px;
 
                 textarea {
+                    background-color: rgb(61, 61, 61);
                     width: 70%;
                     resize: none;
-                    background-color: rgb(34, 33, 33);
                     border: none;
-                    caret-color: white;
-                    color: white;
                     border-radius: 5px;
+                    caret-color: white;
+                    padding: 5px 10px 5px 10px;
+                    color: white;
+                    border: none;
+
+                    &::placeholder {
+                        color: #FFD7D7;
+                    }
 
                     &:focus {
-                        border: none;
-                        outline: solid 2px #ffd7d7;  
+                        outline: solid 2px #ffd7d7; 
                     }
                 }
 
