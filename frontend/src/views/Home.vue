@@ -104,7 +104,7 @@ export default {
         .section {
             max-width: 650px;
             margin: 20px auto 0 auto;
-            background-color: rgb(255, 255, 255);
+            background: linear-gradient(90deg, rgba(255,215,215,1) 0%, rgba(254,130,108,1) 50%, rgba(253,45,1,1) 100%);
             min-height: 640px;
         }
 

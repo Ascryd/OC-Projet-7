@@ -1,5 +1,5 @@
 <template lang="fr">
-    <div>
+    <div class="postList">
         <Post :message="message" v-for="message in messages" :key="message.message_id" />
     </div>
 </template>
@@ -30,19 +30,25 @@ export default {
             let localTimeDiff = moment().utcOffset()
             moment.locale("fr")
             
-            res.data.results.forEach(element => {
+            let reverseArray = res.data.results.reverse()
+            reverseArray.forEach(element => {
                 if (element.post_id == "") {
-                    element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
-                    console.log(element);
                     element["comments"] = []
+                    element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
                     this.messages.push(element)
                 } else {
-                    // Mettre les commentaires quelque part dans une variable utilisable dans Post.vue
-
-                }
-                
+                    element["comments"] = [] // Non obligatoire, mais en cas d'ajout de profondeur c'est prêt
+                    element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
+                    let id = element.post_id
+                    // console.log(id);
+                    let reference = res.data.results.find (ref => ref.message_id == id)
+                    reference.comments.push(element)
+                    // console.log(reference);
+                }                
             });
+
             console.log(this.messages);
+            this.messages.reverse()
 
         })
         .catch (err => {
@@ -59,5 +65,5 @@ export default {
 
 
 <style lang="scss">
-    
+
 </style>
