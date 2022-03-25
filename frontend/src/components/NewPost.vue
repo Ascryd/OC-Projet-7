@@ -38,19 +38,33 @@ export default {
     methods: {
 
         postMessage () {
-            const axios = require("axios")
-            const message = document.querySelector("#post_text").value
-            console.log(message);
+            let message = document.querySelector("#post_text").value
+                console.log(message);
             let date = moment.utc()
-            console.log(date)
+                console.log(date)
             let user_id = this.user.userId
-            console.log(this.user.userId);
+                console.log(user_id);
+            let file = document.querySelector(".importImage").files[0]
+                console.log(file);
+            const formData = new FormData()
+                formData.append ("message", message)
+                formData.append ("user_id", user_id)
+                formData.append ("eventDateTime", date)
+                formData.append ("imageUrl", file)
 
-            axios.post("http://localhost:3000/api/post/", {
-                message,
-                user_id,
-                eventDateTime: date,
+            const axios = require("axios")
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/post/',
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
             })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         },
     },
     

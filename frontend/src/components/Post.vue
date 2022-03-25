@@ -68,7 +68,7 @@ export default {
     methods: {
         postComment (id) {
             console.log(id);
-            const message = document.querySelector(".inputComment").value // ah bon ?
+            const message = document.querySelector(".inputComment").value // ah bon ? Récupère que le premier input ??
             console.log(message);
             const date = moment.utc()
             console.log(date);

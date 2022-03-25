@@ -1,9 +1,13 @@
 const db = require ("../database/db.mysql")
 
 exports.postMessage = (req, res) => {
-    const post = req.body
-    // req.body.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    const post = req.file ?
+    {
+        ...req.body,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body } //-------------- Undefined image dans la BDD
     console.log(post)
+
     const sql = "INSERT INTO messages SET ?"
     db.query(sql, post, (err, results, fields) => {
         if (err){
@@ -44,18 +48,3 @@ exports.deleteMessage = (req, res) => {
         }
     })
 }
-
-// exports.postComment = (req, res) => {
-    
-//     const comment = req.body
-//     const sql = "INSERT INTO messsages SET ?"
-//     db.query(sql, comment, (err, results, fields) => {
-//         if (err){
-//             console.log(err)
-//             res.json({err})
-//         } else {
-//             console.log(results)
-//             res.json({message: "Commentaire enregistré"})
-//         }
-//     })
-// }
