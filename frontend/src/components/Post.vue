@@ -12,7 +12,7 @@
 
             <div class="post_content">
                 <p class="postMessage">{{message.message}}</p>
-                <img class="postPic" src="@/assets/logo.png" alt="image du post">
+                <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="message.imageUrl" alt="image du post">
             </div>
         </div>
 
@@ -33,7 +33,7 @@
 
                 <div class="comment_content">
                     <p class="message">{{comment.message}}</p>
-                    <img class="postPic" src="@/assets/logo.png" alt="image du post">
+                    <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="comment.imageUrl" alt="image du post">
                 </div>
             </div>
         </div>
@@ -91,8 +91,8 @@ export default {
         },
 
         deleteMessage (id) {
-            const axios = require("axios")
             console.log(id)
+            const axios = require("axios")
             axios.delete(`http://localhost:3000/api/post/${id}`)
         },
     },
@@ -138,6 +138,7 @@ export default {
                 }
 
                 .postPic {
+                    margin-top: 15px;
                     max-width: 250px;
                     margin-left: 70px;
                 }
@@ -192,6 +193,7 @@ export default {
                 border-top : thin rgb(150, 150, 150) solid;
                 // margin-top: 25px;
                 padding-left: 30px;
+                padding-bottom: 30px;
 
                 .info {
                     padding-top: 10px;

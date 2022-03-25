@@ -1,4 +1,5 @@
 const db = require ("../database/db.mysql")
+const fs = require("fs")
 
 exports.postMessage = (req, res) => {
     const post = req.file ?
@@ -35,16 +36,28 @@ exports.getMessages = (req, res) => {
 }
 
 
-exports.deleteMessage = (req, res) => {
+exports.deleteMessage = (req, res) => { // Ici on fait 2 requête sql, peut mieux faire ?
     const id = req.params.id
-    const sql = "DELETE FROM messages WHERE `message_id` = ?"
+    const sql = "SELECT imageUrl FROM messages WHERE message_id = ?"
     db.query(sql, id, (err, results, fields) => {
         if (err){
             console.log(err)
-            res.json({err})
         } else {
-            console.log(results)
-            res.json({message: "Message supprimé", results})
+            console.log(results);
+            const fileName = results[0].imageUrl.split("/images/")[1]
+            fs.unlink(`images/${fileName}`, () => {
+
+                const sql = "DELETE FROM messages WHERE `message_id` = ?"
+                db.query(sql, id, (err, results, fields) => {
+                    if (err){
+                        console.log(err)
+                        res.json({err})
+                    } else {
+                        console.log(results)
+                        res.json({message: "Message supprimé", results})
+                    }
+                })
+            })
         }
     })
 }
