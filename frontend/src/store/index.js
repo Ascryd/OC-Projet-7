@@ -32,6 +32,7 @@ export default new Vuex.Store({
       firstName: "",
       lastName: "",
       email: "",
+      imageProfilUrl: ""
     }
   },
 
@@ -94,11 +95,19 @@ export default new Vuex.Store({
       })
     },
 
-    register ({commit}, userInfos) {
+    register ({commit}, formData) {
       return new Promise((resolve, reject) => {
         commit("setStatus", "loading")
-        console.log(userInfos);
-        axios.post("http://localhost:3000/api/auth/signup", userInfos)
+        console.log(formData);
+        for (let pair of formData.entries()) { 
+          console.log(pair[0]+ ': ' + pair[1]); 
+        }
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/api/auth/signup/',
+          data: formData,
+          // headers: { "Content-Type": "multipart/form-data" },
+        })
         .then(res => {
           resolve(res)
           commit("setStatus", "")
@@ -113,8 +122,7 @@ export default new Vuex.Store({
     getUserInfos ({commit}) {
       axios.get(`http://localhost:3000/api/auth/infos`,)  
         .then(res => {
-          // console.log(res);
-          commit("userInfos", res.data.results[0])    // Ici on recup un tableau avec un seul objet, Pourquoi ??
+          commit("userInfos", res.data.results[0]) 
           console.log(res.data.results[0]);
           
         })

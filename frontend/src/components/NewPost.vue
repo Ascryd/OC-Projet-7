@@ -3,7 +3,7 @@
         <div class="accueil">
             <div class="post">
                 <div class="text">
-                    <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
+                    <img class="profilPic" :src="userInfos.imageProfilUrl" alt="Photo de profil">
                     <textarea id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
                 </div>
                 <div class="pics">
@@ -32,26 +32,28 @@ export default {
     },
 
     computed: {
-        ...mapState(['user'])
+        ...mapState(['user']),
+        ...mapState(['userInfos'])
     },
 
     methods: {
 
         postMessage () {
             let message = document.querySelector("#post_text").value
-                console.log(message);
-            let date = moment.utc()
-                console.log(date)
+                // console.log(message);
+            let date = moment.utc().format("YYYY-MM-DD HH:mm:ss")
+                // console.log("test date " + date)
             let user_id = this.user.userId
-                console.log(user_id);
+                // console.log(user_id);
             let file = document.querySelector(".importImage").files[0]
-                console.log(file);
+                // console.log(file);
             const formData = new FormData()
                 formData.append ("message", message)
                 formData.append ("user_id", user_id)
                 formData.append ("eventDateTime", date)
                 formData.append ("imageUrl", file)
-
+            // console.log(formData);
+            
             const axios = require("axios")
             axios({
                 method: 'post',

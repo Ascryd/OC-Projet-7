@@ -1,17 +1,32 @@
 const bcrypt = require("bcrypt")
 const db = require ("../database/db.mysql")
 const jwt = require("jsonwebtoken")
+const fs = require("fs")
+
+const fsResultHandler = function(err) { 
+  if(err) {
+     console.log("unlink failed", err);
+  } else {
+     console.log("file deleted");
+  }
+} 
 
 
 exports.signup = (req, res) => {
     bcrypt.hash(req.body.password, 10) // --------------> On hash le mdp avec Bcrypt (ici 10 fois)
     .then(hash => {
-      const user = { 
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: hash
-      }   
+      // const user = { 
+      //   firstName: req.body.firstName,
+      //   lastName: req.body.lastName,
+      //   email: req.body.email,
+      //   password: hash
+      // }   
+      console.log(req.file.filename);
+      const user = {
+        ...req.body,
+        password: hash,
+        imageProfilUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      }
       return user
     })
     
@@ -74,7 +89,7 @@ exports.infos = (req, res) => {
   const token = req.headers.authorization
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
   const userId = decodedToken.userId
-  const sql = "SELECT firstName, lastName, email FROM user WHERE `_id` = ?"
+  const sql = "SELECT firstName, lastName, email, imageProfilUrl FROM user WHERE `_id` = ?"
   db.query(sql, userId, (err, results, fields) => {
     if (err){
         console.log(err)
@@ -87,18 +102,47 @@ exports.infos = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  const sql = "DELETE FROM user WHERE _id = ?"
   const token = req.headers.authorization
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
   const userId = decodedToken.userId
-  db.query(sql, userId, (err, results, fields) => {
-    if (err){
-      console.log(err)
-      res.json({err})
-  } else {
-      console.log(results)
-      res.json({message: "Compte supprimé", results})  
-  }
-  })
+
+
+    const sqlGetAllImages = "SELECT imageUrl FROM messages WHERE user_id = ?"
+    db.query(sqlGetAllImages, userId, (err, results, fields) => {
+      if (err){
+        console.log(err)
+      } else {
+        results.forEach(result => {
+          console.log("résultat unique");
+          const fileName = result.imageUrl.split("/images/")[1]
+          fs.unlink(`images/${fileName}`, fsResultHandler)
+        })
+
+        const sqlGetImageProfil = "SELECT imageProfilUrl FROM user WHERE _id = ?"
+        db.query(sqlGetImageProfil, userId, (err, results, fields) => {
+          if (err){
+            console.log(err)
+          } else {
+            console.log(results)
+            const fileName = results[0].imageProfilUrl.split("/images/")[1]
+            fs.unlink(`images/${fileName}`, fsResultHandler)
+              
+            const sql = "DELETE FROM user WHERE _id = ?"
+              db.query(sql, userId, (err, results, fields) => {
+                if (err){
+                  console.log(err)
+                  res.json({err})
+              } else {
+                  console.log(results)
+                  res.json({message: "Compte supprimé", results})  
+              }
+            })
+      
+          }
+        })
+      }
+    })
+
+
 
 }

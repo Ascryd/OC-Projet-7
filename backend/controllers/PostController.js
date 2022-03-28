@@ -36,9 +36,10 @@ exports.getMessages = (req, res) => {
 }
 
 
-exports.deleteMessage = (req, res) => { // Ici on fait 2 requête sql, peut mieux faire ?
+exports.deleteMessage = (req, res) => {
     const id = req.params.id
     const sql = "SELECT imageUrl FROM messages WHERE message_id = ?"
+    
     db.query(sql, id, (err, results, fields) => {
         if (err){
             console.log(err)
@@ -55,6 +56,7 @@ exports.deleteMessage = (req, res) => { // Ici on fait 2 requête sql, peut mieu
                     } else {
                         console.log(results)
                         res.json({message: "Message supprimé", results})
+                        // récupérer la nouvelle liste de message !
                     }
                 })
             })

@@ -12,8 +12,8 @@
       </div>
 
       <div class="photo">
-        <button class="btn btn--import">Importer</button>
-        <img src="@/assets/logo.png" alt="Photo de profil">
+        <label class="photo__label" for="photo">Votre photo de profil :</label>
+        <input type="file" class="photo__input">
       </div>
       
       <p class="error" v-if ="status == 'error_create'">Adresse email déjà utilisée</p>
@@ -65,13 +65,20 @@ export default {
     },
 
     register () {
-      // const self = this
-      this.$store.dispatch("register", {
-        firstName: this.input[0].value,
-        lastName: this.input[1].value,
-        email: this.input[2].value,
-        password: this.input[3].value
-      })
+      const imageProfil = document.querySelector(".photo__input").files[0]
+      console.log(imageProfil);
+      const formData = new FormData()
+        formData.append ("firstName", this.input[0].value)
+        formData.append ("lastName", this.input[1].value)
+        formData.append ("email", this.input[2].value)
+        formData.append ("password", this.input[3].value)
+        formData.append ("imageUrl", imageProfil)
+      console.log(formData);
+      for (let pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+      }
+      this.$store.dispatch("register", formData)
+      
       .then(res => {
         console.log(res);
         this.$router.go()
@@ -88,12 +95,9 @@ export default {
 <style lang="scss">
   .photo {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
-
-    img {
-      width: 100px;
-    }
+    gap: 10px;
+    margin-bottom: 20px;
   }
 </style>

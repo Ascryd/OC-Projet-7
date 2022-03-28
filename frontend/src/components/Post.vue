@@ -4,7 +4,7 @@
 
         <div class="originalPost">
             <div class="info">
-                <img class="profilPic" src="@/assets/logo.png" alt="Photo de profil">
+                <img class="profilPic" :src="message.imageProfilUrl" alt="Photo de profil">
                 <h2>{{message.firstName}} {{message.lastName}}</h2>
                 <p>{{message.eventDateTime}}</p>
                 <button @click="deleteMessage(message.message_id)" class="btn">Supprimer</button>
@@ -18,14 +18,16 @@
 
         <div class="comments">
             <h2 class="comments_h2">Commentaires</h2>
+
             <div class="input">
-                <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
-                <textarea class="inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
+                <img class="profilPic profilPic--small" :src="userInfos.imageProfilUrl" alt="Photo de profil">
+                <textarea v-model="inputComment" class="inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
                 <font-awesome-icon @click="postComment(message.message_id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
             </div>
+
             <div v-for="comment in message.comments" :key="comment.id" class="post_comments">
                 <div class="info">
-                    <img class="profilPic profilPic--small" src="@/assets/logo.png" alt="Photo de profil">
+                    <img class="profilPic profilPic--small" :src="comment.imageProfilUrl" alt="Photo de profil">
                     <h2>{{comment.firstName}} {{comment.lastName}}</h2>
                     <p>{{comment.eventDateTime}}</p>
                     <button @click="deleteMessage(comment.message_id)" class="btn">Supprimer</button>
@@ -33,7 +35,7 @@
 
                 <div class="comment_content">
                     <p class="message">{{comment.message}}</p>
-                    <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="comment.imageUrl" alt="image du post">
+                    <!-- <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="comment.imageUrl" alt="image du post"> -->
                 </div>
             </div>
         </div>
@@ -57,37 +59,35 @@ export default {
 
     data() {
         return {
-            
+            inputComment: "",
         }
     },
 
     computed: {
-        ...mapState(['user'])
+        ...mapState(['user']),
+        ...mapState(['userInfos']),
     },
 
     methods: {
         postComment (id) {
-            console.log(id);
-            const message = document.querySelector(".inputComment").value // ah bon ? Récupère que le premier input ??
-            console.log(message);
             const date = moment.utc()
             console.log(date);
             const user_id = this.user.userId
             console.log(user_id);
 
-            // const axios = require("axios")
-            // axios.post("http://localhost:3000/api/post/", {
-            //     message,
-            //     post_id: id,
-            //     user_id,
-            //     eventDateTime: date
-            // })
-            // .then(res => {
-            //     console.log("Commentaire enregistré" + res)
-            // })
-            // .catch(err => {
-            //     console.log(err)
-            // })
+            const axios = require("axios")
+            axios.post("http://localhost:3000/api/post/", {
+                message: this.inputComment,
+                post_id: id,
+                user_id,
+                eventDateTime: date
+            })
+            .then(res => {
+                console.log("Commentaire enregistré" + res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         },
 
         deleteMessage (id) {

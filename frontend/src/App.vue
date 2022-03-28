@@ -68,6 +68,7 @@
     width: 50px;
     border: rgba(197, 197, 197, 0.637) solid 1px;
     border-radius: 100%;
+    object-fit: cover;
 
     &--small {
       height: 30px;

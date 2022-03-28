@@ -8,7 +8,7 @@
 
             <div class="profil">
 
-                <img src="@/assets/logo.png" alt="photo de profil">
+                <img :src="userInfos.imageProfilUrl" alt="photo de profil">
 
                 <ul class="infos">
                     <li class="info">{{userInfos.firstName}}</li>
