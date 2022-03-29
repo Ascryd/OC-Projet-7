@@ -1,6 +1,11 @@
 <template lang="fr">
     <div class="postList">
-        <Post :message="message" v-for="message in messages" :key="message.message_id" />
+        <Post   :message="message" 
+                :userId="userInfos._id" 
+                :securityLevel="userInfos.securityLevel" 
+                v-for="message in messages" 
+                :key="message.message_id"
+            />
     </div>
 </template>
 
@@ -8,6 +13,7 @@
 <script>
 import moment from 'moment'
 import Post from "@/components/Post.vue"
+import { mapState } from 'vuex'
 
 export default {
     name: "PostList",
@@ -18,7 +24,12 @@ export default {
     data() {
         return {
             messages: [],
+
         }
+    },
+
+    computed: {
+        ...mapState(['userInfos']),
     },
 
 

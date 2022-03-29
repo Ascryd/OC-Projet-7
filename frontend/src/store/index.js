@@ -32,7 +32,9 @@ export default new Vuex.Store({
       firstName: "",
       lastName: "",
       email: "",
-      imageProfilUrl: ""
+      imageProfilUrl: "",
+      securityLevel: "",
+      _id: "",
     }
   },
 

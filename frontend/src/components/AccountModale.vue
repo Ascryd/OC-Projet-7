@@ -40,9 +40,9 @@ export default {
             labels: ["email", "mot de passe"],
 
             User: {
-                firstName: "John",
-                lastName: "Doe",
-                email: "JohnDoe@exemple.com"
+                firstName: "",
+                lastName: "",
+                email: ""
             }
 
             

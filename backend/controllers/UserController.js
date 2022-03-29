@@ -89,7 +89,7 @@ exports.infos = (req, res) => {
   const token = req.headers.authorization
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
   const userId = decodedToken.userId
-  const sql = "SELECT firstName, lastName, email, imageProfilUrl FROM user WHERE `_id` = ?"
+  const sql = "SELECT firstName, lastName, email, imageProfilUrl, securityLevel, _id FROM user WHERE `_id` = ?"
   db.query(sql, userId, (err, results, fields) => {
     if (err){
         console.log(err)

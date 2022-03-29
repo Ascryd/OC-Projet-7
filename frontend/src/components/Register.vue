@@ -73,9 +73,10 @@ export default {
         formData.append ("email", this.input[2].value)
         formData.append ("password", this.input[3].value)
         formData.append ("imageUrl", imageProfil)
+        formData.append ("securityLevel", 1)
       console.log(formData);
       for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
+        console.log(pair[0]+ ', ' + pair[1]);
       }
       this.$store.dispatch("register", formData)
       

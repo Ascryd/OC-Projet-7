@@ -7,9 +7,9 @@
                 <img class="profilPic" :src="message.imageProfilUrl" alt="Photo de profil">
                 <h2>{{message.firstName}} {{message.lastName}}</h2>
                 <p>{{message.eventDateTime}}</p>
-                <button @click="deleteMessage(message.message_id)" class="btn">Supprimer</button>
+                <button v-if="securityLevel >= 2 || message.user_id == userId" @click="deleteMessage(message.message_id)" class="btn">Supprimer</button>
             </div>
-
+            
             <div class="post_content">
                 <p class="postMessage">{{message.message}}</p>
                 <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="message.imageUrl" alt="image du post">
@@ -30,12 +30,11 @@
                     <img class="profilPic profilPic--small" :src="comment.imageProfilUrl" alt="Photo de profil">
                     <h2>{{comment.firstName}} {{comment.lastName}}</h2>
                     <p>{{comment.eventDateTime}}</p>
-                    <button @click="deleteMessage(comment.message_id)" class="btn">Supprimer</button>
+                    <button v-if="securityLevel >= 2 || comment.user_id == userId" @click="deleteMessage(comment.message_id)" class="btn">Supprimer</button>
                 </div>
 
                 <div class="comment_content">
                     <p class="message">{{comment.message}}</p>
-                    <!-- <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="comment.imageUrl" alt="image du post"> -->
                 </div>
             </div>
         </div>
@@ -55,7 +54,7 @@ export default {
 
     },
 
-    props: ["message"],
+    props: ["message", "userId", "securityLevel"],
 
     data() {
         return {
@@ -68,12 +67,13 @@ export default {
         ...mapState(['userInfos']),
     },
 
+
     methods: {
         postComment (id) {
             const date = moment.utc()
-            console.log(date);
+            // console.log(date);
             const user_id = this.user.userId
-            console.log(user_id);
+            // console.log(user_id);
 
             const axios = require("axios")
             axios.post("http://localhost:3000/api/post/", {
@@ -91,7 +91,7 @@ export default {
         },
 
         deleteMessage (id) {
-            console.log(id)
+            // console.log(id)
             const axios = require("axios")
             axios.delete(`http://localhost:3000/api/post/${id}`)
         },
