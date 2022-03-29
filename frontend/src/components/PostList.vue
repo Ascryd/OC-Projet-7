@@ -3,8 +3,8 @@
         <Post   :message="message" 
                 :userId="userInfos._id" 
                 :securityLevel="userInfos.securityLevel" 
-                v-for="message in messages" 
-                :key="message.message_id"
+                v-for="message in messages" :key="message.message_id" 
+                @update-messages="updateMessages"
             />
     </div>
 </template>
@@ -51,17 +51,11 @@ export default {
                     element["comments"] = [] // Non obligatoire, mais en cas d'ajout de profondeur c'est prêt
                     element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
                     let id = element.post_id
-                    console.log(id);
-                    console.log("commentaires")
-                    console.log(element);
-                    // console.log(res.data.results);
                     let reference = res.data.results.find (ref => ref.message_id == id)
                     reference.comments.unshift(element)
-                    console.log(reference);
                 }
             });
 
-            console.log(this.messages);
             this.messages.reverse() // On fait le reverse en JS pour trier les données dans le bon ordre.
             console.log(this.messages);
 
@@ -72,7 +66,29 @@ export default {
     },
 
     methods: {
-        
+        updateMessages (newList) {
+            
+            let localTimeDiff = moment().utcOffset()
+            moment.locale("fr")
+            const newMessages = []
+            
+            newList.forEach(element => {
+                if (element.post_id == "") {
+                    element["comments"] = []
+                    element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
+                    newMessages.push(element)
+                } else {
+                    element["comments"] = [] // Non obligatoire, mais en cas d'ajout de profondeur c'est prêt
+                    element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
+                    let id = element.post_id
+                    let reference = newList.find (ref => ref.message_id == id)
+                    reference.comments.unshift(element)
+                }
+            });
+
+            this.messages = newMessages
+            this.messages.reverse() // On fait le reverse en JS pour trier les données dans le bon ordre.
+        }
     },
 }
 

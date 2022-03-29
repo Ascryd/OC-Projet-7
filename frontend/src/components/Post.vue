@@ -25,7 +25,7 @@
                 <font-awesome-icon @click="postComment(message.message_id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
             </div>
 
-            <div v-for="comment in message.comments" :key="comment.id" class="post_comments">
+            <div v-for="comment in message.comments" :key="comment.message_id" class="post_comments">
                 <div class="info">
                     <img class="profilPic profilPic--small" :src="comment.imageProfilUrl" alt="Photo de profil">
                     <h2>{{comment.firstName}} {{comment.lastName}}</h2>
@@ -71,9 +71,7 @@ export default {
     methods: {
         postComment (id) {
             const date = moment.utc()
-            // console.log(date);
             const user_id = this.user.userId
-            // console.log(user_id);
 
             const axios = require("axios")
             axios.post("http://localhost:3000/api/post/", {
@@ -83,17 +81,30 @@ export default {
                 eventDateTime: date
             })
             .then(res => {
-                console.log("Commentaire enregistré" + res)
+                let newList = res.data.results
+                this.$emit('update-messages', newList)
             })
             .catch(err => {
                 console.log(err)
             })
+
+
+            // this.$emit('update-messages', comment)
+
         },
 
-        deleteMessage (id) {
-            // console.log(id)
+        deleteMessage (id) { // On pourrait envoyer 'message' avec $emit
             const axios = require("axios")
             axios.delete(`http://localhost:3000/api/post/${id}`)
+            .then(res => {
+                console.log("Message supprimé")
+                let newList = res.data.results
+                // console.log(newList);
+                this.$emit('update-messages', newList)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         },
     },
 

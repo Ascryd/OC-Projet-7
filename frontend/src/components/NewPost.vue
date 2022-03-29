@@ -61,12 +61,13 @@ export default {
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
             })
-            .then(function (response) {
-                console.log(response);
+            .then(res => {
+                let newList = res.data.results
+                this.$emit('update-messages', newList)
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+            .catch(err => {
+                console.log(err)
+            })
         },
     },
     

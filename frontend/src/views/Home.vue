@@ -5,7 +5,7 @@
         <AccountModale :revele="revele" :toggleModale="toggleModale" />
 
         <div class="section">
-            <NewPost />
+            <NewPost @update-messages="updateMessages" />
             
             <PostList />
             
@@ -33,7 +33,7 @@ export default {
         NewPost,
     },
 
-    props: ["userConnected"],
+    props: ["userConnected", "updateMessages"],
 
     data() {
         return {

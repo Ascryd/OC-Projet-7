@@ -108,7 +108,6 @@ export default new Vuex.Store({
           method: 'post',
           url: 'http://localhost:3000/api/auth/signup/',
           data: formData,
-          // headers: { "Content-Type": "multipart/form-data" },
         })
         .then(res => {
           resolve(res)
