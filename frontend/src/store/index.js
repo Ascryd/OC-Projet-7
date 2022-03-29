@@ -135,9 +135,8 @@ export default new Vuex.Store({
     deleteUser ({commit}) {
       axios.delete('http://localhost:3000/api/auth/delete')
       commit('logout')
-    }
+    },
 
-    
 
   },
 

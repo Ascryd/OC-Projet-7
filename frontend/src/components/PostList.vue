@@ -63,11 +63,16 @@ export default {
         .catch (err => {
             console.log(err);
         })
+
+        this.$root.$on('update-messages', newList => { // On utilise $root pour communiquer entre frère et soeur
+            console.log("new list dans root !");
+            this.updateMessages(newList) 
+        })
     },
 
     methods: {
         updateMessages (newList) {
-            
+
             let localTimeDiff = moment().utcOffset()
             moment.locale("fr")
             const newMessages = []

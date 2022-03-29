@@ -4,7 +4,7 @@
             <div class="post">
                 <div class="text">
                     <img class="profilPic" :src="userInfos.imageProfilUrl" alt="Photo de profil">
-                    <textarea id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
+                    <textarea v-model="inputPost" id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
                 </div>
                 <div class="pics">
                     <div class="btnImport">
@@ -31,6 +31,12 @@ export default {
 
     },
 
+    data() {
+        return {
+            inputPost : "",
+        }
+    },
+
     computed: {
         ...mapState(['user']),
         ...mapState(['userInfos'])
@@ -39,7 +45,7 @@ export default {
     methods: {
 
         postMessage () {
-            let message = document.querySelector("#post_text").value
+            // let message = document.querySelector("#post_text").value
                 // console.log(message);
             let date = moment.utc().format("YYYY-MM-DD HH:mm:ss")
                 // console.log("test date " + date)
@@ -48,7 +54,7 @@ export default {
             let file = document.querySelector(".importImage").files[0]
                 // console.log(file);
             const formData = new FormData()
-                formData.append ("message", message)
+                formData.append ("message", this.inputPost)
                 formData.append ("user_id", user_id)
                 formData.append ("eventDateTime", date)
                 formData.append ("imageUrl", file)
@@ -63,7 +69,11 @@ export default {
             })
             .then(res => {
                 let newList = res.data.results
-                this.$emit('update-messages', newList)
+                this.$root.$emit('update-messages', newList)
+                this.inputPost = ""
+                document.querySelector(".importImage").value = ''
+
+
             })
             .catch(err => {
                 console.log(err)

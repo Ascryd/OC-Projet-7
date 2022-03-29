@@ -83,6 +83,7 @@ export default {
             .then(res => {
                 let newList = res.data.results
                 this.$emit('update-messages', newList)
+                this.inputComment = ""
             })
             .catch(err => {
                 console.log(err)
