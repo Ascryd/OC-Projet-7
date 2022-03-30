@@ -67,6 +67,7 @@ export default new Vuex.Store({
         token: ''
       }
       localStorage.removeItem('user')
+      
     },
 
     

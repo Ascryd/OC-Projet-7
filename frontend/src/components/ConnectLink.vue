@@ -6,7 +6,7 @@
 
 
 <script>
-import { mapState, mapActions } from "vuex"
+import { mapActions } from "vuex"
 
 export default {
     name: "ConnectLink",
@@ -26,9 +26,6 @@ export default {
         ...mapActions(['changeTemplate'])
     },
 
-    computed: {
-        ...mapState(['haveAccount'])
-    },
 }
 </script>
 

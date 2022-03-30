@@ -18,7 +18,7 @@
       </button>
 
       <div class="connect_link">
-      <ConnectLink @emit-change-template="changeTemplate" button_name="Créer un compte" />
+      <ConnectLink button_name="Créer un compte" />
       </div>
     </div>
   </section>

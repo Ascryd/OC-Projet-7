@@ -1,8 +1,8 @@
 <template>
     <div class="home">
-        <Header :toggleModale="toggleModale" userConnected = true />
+        <Header @toggle-modale="toggleModale" userConnected = true />
 
-        <AccountModale :revele="revele" :toggleModale="toggleModale" />
+        <AccountModale :revele="revele" @toggle-modale="toggleModale" />
 
         <div class="section">
             <NewPost  />
@@ -56,18 +56,7 @@ export default {
         toggleModale () {
             this.revele = !this.revele
         },
-
-        // previewPicture () {
-        //     let inputImage = document.querySelector(".importImage").files
-        //     console.log(inputImage)
-
-        //     let image = document.querySelector("#image")
-
-        //     image.src = "URL.createObjectURL(inputImage)"
-        //     console.log(image)
-        // }
     },
-    
 }
 
 

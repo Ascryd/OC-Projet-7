@@ -33,7 +33,7 @@ export default {
 
     },
 
-    props: ["toggleModale", "revele"],
+    props: ["revele"],
 
     data() {
         return {
@@ -60,6 +60,10 @@ export default {
         deleteUser () {
             this.$store.dispatch("deleteUser")
             this.$router.push("/")
+        },
+
+        toggleModale () {
+            this.$emit ('toggle-modale')
         }
     },
 }

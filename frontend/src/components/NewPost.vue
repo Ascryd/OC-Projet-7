@@ -8,7 +8,7 @@
                 </div>
                 <div class="pics">
                     <div class="btnImport">
-                        <input type="file" class="importImage" @change="previewPicture()">
+                        <input type="file" class="importImage" >
                     </div>
                     <!-- <img src="#" id="image" alt="image sélectionné">  remplacer par un v-bind avec une data -->
                 </div>
@@ -45,8 +45,6 @@ export default {
     methods: {
 
         postMessage () {
-            // let message = document.querySelector("#post_text").value
-                // console.log(message);
             let date = moment.utc().format("YYYY-MM-DD HH:mm:ss")
                 // console.log("test date " + date)
             let user_id = this.user.userId
@@ -72,8 +70,6 @@ export default {
                 this.$root.$emit('update-messages', newList)
                 this.inputPost = ""
                 document.querySelector(".importImage").value = ''
-
-
             })
             .catch(err => {
                 console.log(err)

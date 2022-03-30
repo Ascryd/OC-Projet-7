@@ -3,10 +3,10 @@
         <Header />
         <div class="element">
             <div v-if="$store.state.haveAccount == true" class="login">
-            <Login @emit-change-template="changeTemplate" />
+            <Login />
             </div>
             <div v-else class="register">
-            <Register @emit-change-template="changeTemplate" />
+            <Register />
             </div>
         </div>
         
