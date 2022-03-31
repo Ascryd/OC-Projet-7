@@ -33,12 +33,11 @@ export default {
     },
 
 
-    // Passer les commentaires en props pour les inclure directement avec Post.vue ?
     mounted() {
+
         const axios = require("axios")
         axios.get("http://localhost:3000/api/post/")
         .then (res => {
-            console.log(res);
             let localTimeDiff = moment().utcOffset()
             moment.locale("fr")
             
@@ -56,13 +55,12 @@ export default {
                 }
             });
 
-            this.messages.reverse() // On fait le reverse en JS pour trier les données dans le bon ordre.
-            console.log(this.messages);
-
+            this.messages.reverse() // On fait le reverse en JS pour !trier! les données dans le bon ordre.
         })
         .catch (err => {
             console.log(err);
         })
+
 
         this.$root.$on('update-messages', newList => { // On utilise $root pour communiquer entre frère et soeur
             console.log("new list dans root !");
@@ -71,8 +69,8 @@ export default {
     },
 
     methods: {
-        updateMessages (newList) {
 
+        updateMessages (newList) {
             let localTimeDiff = moment().utcOffset()
             moment.locale("fr")
             const newMessages = []
@@ -83,7 +81,7 @@ export default {
                     element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
                     newMessages.push(element)
                 } else {
-                    element["comments"] = [] // Non obligatoire, mais en cas d'ajout de profondeur c'est prêt
+                    element["comments"] = []
                     element.eventDateTime = moment(element.eventDateTime).add(localTimeDiff, "minutes").fromNow()
                     let id = element.post_id
                     let reference = newList.find (ref => ref.message_id == id)
@@ -92,7 +90,7 @@ export default {
             });
 
             this.messages = newMessages
-            this.messages.reverse() // On fait le reverse en JS pour trier les données dans le bon ordre.
+            this.messages.reverse()
         }
     },
 }

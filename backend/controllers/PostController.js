@@ -1,7 +1,7 @@
 const db = require ("../database/db.mysql")
 const fs = require("fs")
 
-const fsResultHandler = function(err) { 
+const fsResultHandler = function(err) { // fonction prédéfini pour fs
     if(err) {
        console.log("unlink failed", err);
     } else {
@@ -9,12 +9,13 @@ const fsResultHandler = function(err) {
     }
 } 
 
+
 exports.postMessage = (req, res) => {
     const post = req.file ?
     {
         ...req.body,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body } //-------------- Undefined image dans la BDD
+    } : { ...req.body }
     console.log(post)
 
     const sql = "INSERT INTO messages SET ?"

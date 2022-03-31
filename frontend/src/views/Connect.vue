@@ -3,13 +3,12 @@
         <Header />
         <div class="element">
             <div v-if="$store.state.haveAccount == true" class="login">
-            <Login />
+                <Login />
             </div>
             <div v-else class="register">
-            <Register />
+                <Register />
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -58,10 +57,8 @@ export default {
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
-    // border: solid rgb(221, 221, 221) 2px;
     box-shadow: 2px 2px 10px rgb(78, 78, 78);
     color: white;
-    
     
     h1 {
         font-size: 1.3rem;
@@ -81,7 +78,6 @@ export default {
             display: flex;
             flex-direction: column;
             
-
             input {
                 border-radius: 2px;
                 border: none;
@@ -115,8 +111,5 @@ export default {
         margin: 20px 0 0 10px;
     }
 }
-
-
-
-    
+ 
 </style>

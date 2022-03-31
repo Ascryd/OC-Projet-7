@@ -22,8 +22,6 @@ export default {
   name: 'Header',
   components: {
   },
-
-  // props: ["toggleModale"],
   
   data() {
     return {
@@ -56,8 +54,8 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
 header {
   background-color: rgb(34, 33, 33);
   height: 50px;
@@ -67,7 +65,6 @@ header {
   width: 100%;
   box-shadow: 2px 3px 7px rgb(15, 15, 15);
 
-
   .left {
     width: 60%;
     display: flex;
@@ -75,7 +72,6 @@ header {
     gap: 2px;
 
     &__logo {
-      // position: absolute;
       width: 40px;
     }
 
@@ -83,8 +79,6 @@ header {
       color: #ff3c15;
       font-size: 1.3rem;
     }
-
-    
   }
 
   .right {
@@ -103,8 +97,7 @@ header {
       flex-direction: column;
       align-items: center;
       
-  
-      a{
+      a {
         font-size: 10px;
         color : #fd2d01
       }

@@ -18,7 +18,7 @@
       </button>
 
       <div class="connect_link">
-      <ConnectLink button_name="Créer un compte" />
+        <ConnectLink button_name="Créer un compte" />
       </div>
     </div>
   </section>
@@ -27,9 +27,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import ConnectLink from "@/components/ConnectLink.vue"
-
 import {mapState} from "vuex"
 
 

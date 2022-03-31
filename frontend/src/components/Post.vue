@@ -97,9 +97,7 @@ export default {
             const axios = require("axios")
             axios.delete(`http://localhost:3000/api/post/${id}`)
             .then(res => {
-                console.log("Message supprimé")
                 let newList = res.data.results
-                // console.log(newList);
                 this.$emit('update-messages', newList)
             })
             .catch(err => {
@@ -113,15 +111,98 @@ export default {
 
 
 <style lang="scss">
-    .Post {
-        color: white;
-        background-color: rgb(34, 33, 33);
-        border-radius: 20px 0 20px 0;
 
-        .originalPost {
-            padding: 0px 15px 0px 15px;
-            padding-bottom: 10px;
-            margin-top: 5px;
+.Post {
+    color: white;
+    background-color: rgb(34, 33, 33);
+    border-radius: 20px 0 20px 0;
+
+    .originalPost {
+        padding: 0px 15px 0px 15px;
+        padding-bottom: 10px;
+        margin-top: 5px;
+
+        .info {
+            padding-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            p {
+                font-size: 12px;
+                font-style: italic;
+            }
+        }
+
+        .post_content {
+
+            .postMessage {
+                margin: 10px 20px 0 70px ;
+                min-width: 200px;
+                width: 80%;
+                border: white solid 1px;
+                border-radius: 5px;
+                padding: 5px 10px 5px 10px;
+                border-right: none;
+                border-left: none;
+            }
+
+            .postPic {
+                margin-top: 15px;
+                max-width: 250px;
+                margin-left: 70px;
+            }
+        }
+    }
+
+    .comments {
+        padding: 25px 25px 0 20px;
+
+        .comments_h2 {
+            margin-bottom: 15px;
+        }
+
+        .input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            resize: none;
+            min-height: 20px;
+            padding-bottom: 25px;
+
+            textarea {
+                background-color: rgb(61, 61, 61);
+                width: 70%;
+                resize: none;
+                border: none;
+                border-radius: 5px;
+                caret-color: white;
+                padding: 5px 10px 5px 10px;
+                color: white;
+                border: none;
+
+                &::placeholder {
+                    color: #FFD7D7;
+                }
+
+                &:focus {
+                    outline: solid 2px #ffd7d7; 
+                }
+            }
+
+            .send_icon {
+                color: #ffd7d7;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .post_comments {
+            border-top : thin rgb(150, 150, 150) solid;
+            padding-left: 30px;
+            padding-bottom: 30px;
 
             .info {
                 padding-top: 10px;
@@ -134,12 +215,12 @@ export default {
                     font-style: italic;
                 }
             }
+            
+            .comment_content {
+                margin: 10px 20px 0 50px ;
+                min-width: 200px;
 
-            .post_content {
-
-                .postMessage {
-                    margin: 10px 20px 0 70px ;
-                    min-width: 200px;
+                .message {
                     width: 80%;
                     border: white solid 1px;
                     border-radius: 5px;
@@ -149,93 +230,10 @@ export default {
                 }
 
                 .postPic {
-                    margin-top: 15px;
                     max-width: 250px;
-                    margin-left: 70px;
-                }
-            }
-        }
-
-        .comments {
-            padding: 25px 25px 0 20px;
-
-            .comments_h2 {
-                margin-bottom: 15px;
-            }
-
-            .input {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-                resize: none;
-                min-height: 20px;
-                padding-bottom: 25px;
-
-                textarea {
-                    background-color: rgb(61, 61, 61);
-                    width: 70%;
-                    resize: none;
-                    border: none;
-                    border-radius: 5px;
-                    caret-color: white;
-                    padding: 5px 10px 5px 10px;
-                    color: white;
-                    border: none;
-
-                    &::placeholder {
-                        color: #FFD7D7;
-                    }
-
-                    &:focus {
-                        outline: solid 2px #ffd7d7; 
-                    }
-                }
-
-                .send_icon {
-                    color: #ffd7d7;
-
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .post_comments {
-                border-top : thin rgb(150, 150, 150) solid;
-                // margin-top: 25px;
-                padding-left: 30px;
-                padding-bottom: 30px;
-
-                .info {
-                    padding-top: 10px;
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-
-                    p {
-                        font-size: 12px;
-                        font-style: italic;
-                    }
-                }
-                
-                .comment_content {
-                    margin: 10px 20px 0 50px ;
-                    min-width: 200px;
-
-                    .message {
-                        width: 80%;
-                        border: white solid 1px;
-                        border-radius: 5px;
-                        padding: 5px 10px 5px 10px;
-                        border-right: none;
-                        border-left: none;
-                    }
-
-                    .postPic {
-                        max-width: 250px;
-                    }
                 }
             }
         }
     }
+}
 </style>

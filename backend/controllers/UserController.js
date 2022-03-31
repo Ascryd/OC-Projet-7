@@ -13,10 +13,8 @@ const fsResultHandler = function(err) {
 
 
 exports.signup = (req, res) => {
-    // console.log(req.body);
     bcrypt.hash(req.body.password, 10) // --------------> On hash le mdp avec Bcrypt (ici 10 fois)
     .then(hash => {
-      console.log(req.file.filename);
       const user = {
         ...req.body,
         password: hash,
@@ -26,12 +24,11 @@ exports.signup = (req, res) => {
     })
     
     .then(user => {
-      console.log(user)
       const sql = "INSERT INTO user SET ?"
         db.query(sql, user, (err, results, fields) => {
             if (err) {
               console.log(err)
-              res.status(412).json({ err, message: "Adresse email déjà enregistrée"})
+              res.status(412).json({ err, message: "Adresse email déjà enregistrée"}) //------ message d'erreur personnalisé
               fs.unlink(`images/${user.imageProfilUrl}`, fsResultHandler)
             } else {
               console.log(results)
@@ -39,18 +36,13 @@ exports.signup = (req, res) => {
             }
         })
     })
-    .catch(error => res.status(412).json({ error, message: "Veuillez remplir tous les champs et choisir une photo de profil" })) // --------------> Message si échec
+    .catch(error => res.status(412).json({ error, message: "Veuillez remplir tous les champs et choisir une photo de profil" }))
 }
-
-
-
 
 
 exports.login = (req, res) => {
     const sql = "SELECT * FROM user WHERE email = ?"
-    console.log(req.body.email);
     db.query(sql, req.body.email, (err, results, fields) => {
-      console.log(results);
       if (err) {
         console.log(err)
         res.status(500).json({err})
@@ -71,7 +63,7 @@ exports.login = (req, res) => {
                 token: jwt.sign (
                   { userId: results[0]._id },
                   "RANDOM_TOKEN_SECRET",
-                  { expiresIn: "24h" }
+                  { expiresIn: "168h" }
                 )
               })
             }
@@ -81,10 +73,12 @@ exports.login = (req, res) => {
     })
 }
 
+
 exports.infos = (req, res) => {
   const token = req.headers.authorization
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
   const userId = decodedToken.userId
+  
   const sql = "SELECT firstName, lastName, email, imageProfilUrl, securityLevel, _id FROM user WHERE `_id` = ?"
   db.query(sql, userId, (err, results, fields) => {
     if (err){
@@ -97,11 +91,11 @@ exports.infos = (req, res) => {
   })
 }
 
+
 exports.delete = (req, res) => {
   const token = req.headers.authorization
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET")
   const userId = decodedToken.userId
-
 
     const sqlGetAllImages = "SELECT imageUrl FROM messages WHERE user_id = ?"
     db.query(sqlGetAllImages, userId, (err, results, fields) => {
@@ -138,7 +132,4 @@ exports.delete = (req, res) => {
         })
       }
     })
-
-
-
 }

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 const axios = require('axios')
 
 Vue.use(Vuex)
 
+// Cette fonction sert à maintenir la session ouverte (le temps du token)
 let user = localStorage.getItem('user')
 if (!user) {
   user = {
@@ -67,13 +69,13 @@ export default new Vuex.Store({
         token: ''
       }
       localStorage.removeItem('user')
-      
     },
 
     
   },
 
   actions: {
+    
     changeTemplate (context) {
       if (context.state.haveAccount === true ) {
         context.commit('PAGE_CONNEXION')
@@ -101,10 +103,7 @@ export default new Vuex.Store({
     register ({commit}, formData) {
       return new Promise((resolve, reject) => {
         commit("setStatus", "loading")
-        console.log(formData);
-        for (let pair of formData.entries()) { 
-          console.log(pair[0]+ ': ' + pair[1]); 
-        }
+
         axios({
           method: 'post',
           url: 'http://localhost:3000/api/auth/signup/',
@@ -137,13 +136,5 @@ export default new Vuex.Store({
       axios.delete('http://localhost:3000/api/auth/delete')
       commit('logout')
     },
-
-
   },
-
-
-  modules: {
-
-  }
-
 })

@@ -23,16 +23,15 @@
       </button>
 
       <div class="connect_link">
-      <ConnectLink button_name="J'ai déjà un compte" />
+        <ConnectLink button_name="J'ai déjà un compte" />
       </div>
+
     </div>
   </section>
-  
 </template>
 
 <script>
 import ConnectLink from "@/components/ConnectLink.vue"
-
 import {mapState} from "vuex"
 
 export default {
@@ -50,14 +49,12 @@ export default {
         { label: "Mot de passe", value: ""},
       ],
       errMessage: ""
-      
     }
   },
 
   computed : {
     ...mapState(['status'])
   },
-
 
   methods : {
 
@@ -67,7 +64,6 @@ export default {
 
     register () {
       const imageProfil = document.querySelector(".photo__input").files[0]
-      console.log(imageProfil);
       const formData = new FormData()
         formData.append ("firstName", this.input[0].value)
         formData.append ("lastName", this.input[1].value)
@@ -75,10 +71,7 @@ export default {
         formData.append ("password", this.input[3].value)
         formData.append ("imageUrl", imageProfil)
         formData.append ("securityLevel", 1)
-      console.log(formData);
-      for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-      }
+
       this.$store.dispatch("register", formData)
       
       .then(res => {
@@ -96,11 +89,13 @@ export default {
 </script>
 
 <style lang="scss">
-  .photo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+
+.photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 </style>
