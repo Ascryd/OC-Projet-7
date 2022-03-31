@@ -11,7 +11,7 @@
             </div>
             
             <div class="post_content">
-                <p class="postMessage">{{message.message}}</p>
+                <p v-if="message.message != ''" class="postMessage">{{message.message}}</p>
                 <img v-if="message.imageUrl != 'undefined'" class="postPic" :src="message.imageUrl" alt="image du post">
             </div>
         </div>
@@ -73,28 +73,27 @@ export default {
             const date = moment.utc()
             const user_id = this.user.userId
 
-            const axios = require("axios")
-            axios.post("http://localhost:3000/api/post/", {
-                message: this.inputComment,
-                post_id: id,
-                user_id,
-                eventDateTime: date
-            })
-            .then(res => {
-                let newList = res.data.results
-                this.$emit('update-messages', newList)
-                this.inputComment = ""
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-
-            // this.$emit('update-messages', comment)
+            if (this.inputComment.split(' ').join("") != "") {
+                const axios = require("axios")
+                axios.post("http://localhost:3000/api/post/", {
+                    message: this.inputComment,
+                    post_id: id,
+                    user_id,
+                    eventDateTime: date
+                })
+                .then(res => {
+                    let newList = res.data.results
+                    this.$emit('update-messages', newList)
+                    this.inputComment = ""
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            }
 
         },
 
-        deleteMessage (id) { // On pourrait envoyer 'message' avec $emit
+        deleteMessage (id) { 
             const axios = require("axios")
             axios.delete(`http://localhost:3000/api/post/${id}`)
             .then(res => {

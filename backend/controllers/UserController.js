@@ -13,14 +13,9 @@ const fsResultHandler = function(err) {
 
 
 exports.signup = (req, res) => {
+    // console.log(req.body);
     bcrypt.hash(req.body.password, 10) // --------------> On hash le mdp avec Bcrypt (ici 10 fois)
     .then(hash => {
-      // const user = { 
-      //   firstName: req.body.firstName,
-      //   lastName: req.body.lastName,
-      //   email: req.body.email,
-      //   password: hash
-      // }   
       console.log(req.file.filename);
       const user = {
         ...req.body,
@@ -36,14 +31,15 @@ exports.signup = (req, res) => {
         db.query(sql, user, (err, results, fields) => {
             if (err) {
               console.log(err)
-              res.status(500).json({err})
+              res.status(412).json({ err, message: "Adresse email déjà enregistrée"})
+              fs.unlink(`images/${user.imageProfilUrl}`, fsResultHandler)
             } else {
               console.log(results)
               res.json({message: "Utilisateur enregistré"})
             }
         })
     })
-    .catch(error => res.status(500).json({ error })) // --------------> Message si échec
+    .catch(error => res.status(412).json({ error, message: "Veuillez remplir tous les champs et choisir une photo de profil" })) // --------------> Message si échec
 }
 
 
@@ -58,16 +54,16 @@ exports.login = (req, res) => {
       if (err) {
         console.log(err)
         res.status(500).json({err})
-      } else if (!results[0]) { // PB ici !!!!!!!!!!! Fonctionne mais plus simple ou plus propre possible ? 
+      } else if (!results[0]) {
         console.log(err + " aucune adresse mail trouvé !")
-        res.status(500).json({err})
+        res.status(500).json({err, message:"Adresse mail introuvable"})
       } else {
         console.log("Le résultat de la requête :  " + JSON.stringify(results))
         
         bcrypt.compare(req.body.password, results[0].password)
           .then (valid => {
             if (!valid) {
-              return res.status(401).json ({ success: false, error: "Mot de passe incorect !"})
+              return res.status(401).json ({ success: false, message: "Mot de passe incorrect !"})
             } else {
               console.log("connexion autorisé")
               res.status(200).json ({

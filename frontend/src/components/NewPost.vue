@@ -56,24 +56,27 @@ export default {
                 formData.append ("user_id", user_id)
                 formData.append ("eventDateTime", date)
                 formData.append ("imageUrl", file)
-            // console.log(formData);
             
-            const axios = require("axios")
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/api/post/',
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-            .then(res => {
-                let newList = res.data.results
-                this.$root.$emit('update-messages', newList)
-                this.inputPost = ""
-                document.querySelector(".importImage").value = ''
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            
+            if (this.inputPost.split(' ').join("") != "" || file) {
+                const axios = require("axios")
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:3000/api/post/',
+                    data: formData,
+                    headers: { "Content-Type": "multipart/form-data" },
+                })
+                .then(res => {
+                    let newList = res.data.results
+                    this.$root.$emit('update-messages', newList)
+                    this.inputPost = ""
+                    document.querySelector(".importImage").value = ''
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            } 
+            
         },
     },
     

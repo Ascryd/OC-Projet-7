@@ -7,16 +7,16 @@
       <div class="form">
         <div class="champs" v-for="item in input" :key="item.label">
           <label :for="item.label" >Entrez votre {{ item.label }} :</label>
-          <input v-model="item.value" class="input_data" :id="item.label" type="text" required>
+          <input v-model="item.value" :id="item.label" type="text" required>
         </div>
       </div>
 
       <div class="photo">
         <label class="photo__label" for="photo">Votre photo de profil :</label>
-        <input type="file" class="photo__input">
+        <input id="photo" type="file" class="photo__input">
       </div>
       
-      <p class="error" v-if ="status == 'error_create'">Adresse email déjà utilisée</p>
+      <p class="error" v-if ="status == 'error_create'"> {{this.errMessage}}</p>
       <button @click="register" class="btn btn_connect" >
         <span v-if ="status == 'loading'" >Création du compte...</span>
         <span v-else>Inscription</span>
@@ -49,6 +49,7 @@ export default {
         { label: "email", value: ""},
         { label: "Mot de passe", value: ""},
       ],
+      errMessage: ""
       
     }
   },
@@ -85,6 +86,7 @@ export default {
         this.$router.go()
       })
       .catch(err => {
+        this.errMessage = err.response.data.message
         console.log(err);
       })
     },

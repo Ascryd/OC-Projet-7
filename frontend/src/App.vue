@@ -59,7 +59,7 @@
   .btn--light {
       background-color: rgb(34, 33, 33);
       border: none;
-      color: #df2500;
+      color: #ff3c15;
             
     }
 

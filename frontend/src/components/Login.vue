@@ -7,11 +7,11 @@
       <div class="form">
         <div class="champs" v-for="item in input" :key="item.label">
           <label :for="item.label" >Entrez votre {{ item.label }} :</label>
-          <input v-model="item.value" :id="item.value" type="text" required>
+          <input  v-model="item.value" :id="item.label" type="text" required>
         </div>
       </div>
       
-      <p class="error" v-if ="status == 'error_login'">Adresse email et/ou mot de passe invalide</p>
+      <p class="error" v-if ="status == 'error_login'">{{errMessage}}</p>
       <button @click="login" class="btn btn_connect">
         <span v-if ="status == 'loading'" >Connexion en cours...</span>
         <span v-else>Connexion</span>
@@ -46,7 +46,8 @@ export default {
       input: [
         { label: "email", value: ""},
         { label: "mot de passe", value: ""},
-      ]
+      ],
+      errMessage: ""
     }
   },
 
@@ -71,6 +72,7 @@ export default {
         self.$router.push('/home')
       })
       .catch(err => {
+        this.errMessage = err.response.data.message
         console.log(err);
       })
     },
