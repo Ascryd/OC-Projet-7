@@ -7,10 +7,6 @@ const userRoutes = require("./routes/user")
 const postRoutes = require("./routes/post")
 
 
-
-
-
-
 const app = express()
 
 app.use(express.json())

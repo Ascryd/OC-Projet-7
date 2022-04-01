@@ -14,7 +14,7 @@ exports.postMessage = (req, res) => {
     const post = req.file ?
     {
         ...req.body,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `/images/${req.file.filename}`
     } : { ...req.body }
     console.log(post)
 
@@ -64,7 +64,7 @@ exports.deleteMessage = (req, res) => {
             console.log(err)
         } else {
             const fileName = results[0].imageUrl.split("/images/")[1]
-            fs.unlink(`images/${fileName}`, fsResultHandler)
+            fs.unlink(`../frontend/public/images/${fileName}`, fsResultHandler)
             console.log(results);
 
             const sql = "DELETE FROM messages WHERE post_id = ?"

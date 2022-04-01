@@ -124,8 +124,6 @@ export default new Vuex.Store({
       axios.get(`http://localhost:3000/api/auth/infos`,)  
         .then(res => {
           commit("userInfos", res.data.results[0]) 
-          console.log(res.data.results[0]);
-          
         })
         .catch(err => {
           console.log(err);

@@ -18,7 +18,7 @@ exports.signup = (req, res) => {
       const user = {
         ...req.body,
         password: hash,
-        imageProfilUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageProfilUrl: `/images/${req.file.filename}`
       }
       return user
     })
@@ -29,7 +29,8 @@ exports.signup = (req, res) => {
             if (err) {
               console.log(err)
               res.status(412).json({ err, message: "Adresse email déjà enregistrée"}) //------ message d'erreur personnalisé
-              fs.unlink(`images/${user.imageProfilUrl}`, fsResultHandler)
+              console.log(user.imageProfilUrl);
+              fs.unlink(`../frontend/public/${user.imageProfilUrl}`, fsResultHandler) //-- image introuvable ? Pourtant multer est avant le controller
             } else {
               console.log(results)
               res.json({message: "Utilisateur enregistré"})
@@ -105,7 +106,7 @@ exports.delete = (req, res) => {
         results.forEach(result => {
           console.log("résultat unique");
           const fileName = result.imageUrl.split("/images/")[1]
-          fs.unlink(`images/${fileName}`, fsResultHandler)
+          fs.unlink(`../frontend/public/images/${fileName}`, fsResultHandler)
         })
 
         const sqlGetImageProfil = "SELECT imageProfilUrl FROM user WHERE _id = ?"
@@ -115,7 +116,7 @@ exports.delete = (req, res) => {
           } else {
             console.log(results)
             const fileName = results[0].imageProfilUrl.split("/images/")[1]
-            fs.unlink(`images/${fileName}`, fsResultHandler)
+            fs.unlink(`../frontend/public/images/${fileName}`, fsResultHandler)
               
             const sql = "DELETE FROM user WHERE _id = ?"
               db.query(sql, userId, (err, results, fields) => {

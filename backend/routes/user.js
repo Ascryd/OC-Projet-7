@@ -5,7 +5,7 @@ const multer = require("../middleware/multer-config")
 const validation = require("../middleware/validation")
 const UserController = require("../controllers/UserController")
 
-router.post("/signup", multer, UserController.signup)
+router.post("/signup", multer, validation.signup, UserController.signup)
 router.post("/login", UserController.login)
 router.get("/infos", UserController.infos)
 router.delete("/delete", UserController.delete)

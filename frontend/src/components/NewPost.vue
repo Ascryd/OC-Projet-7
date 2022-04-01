@@ -132,7 +132,7 @@ export default {
     .btnPost {
         display: flex;
         flex-direction: row-reverse;
-        padding-bottom: 15px; 
+        padding: 15px 0 15px 0;
     }
 }
 </style>
