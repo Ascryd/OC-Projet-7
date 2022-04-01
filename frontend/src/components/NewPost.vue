@@ -3,11 +3,15 @@
         <div class="post">
             <div class="text">
                 <img class="profilPic" :src="userInfos.imageProfilUrl" alt="Photo de profil">
-                <textarea v-model="inputPost" id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
+                <div class="post_text">
+                    <label for="post_text"> Ajoutez un post pour vos collègues -> </label>
+                    <textarea v-model="inputPost" id="post_text" placeholder="Exprimez-vous !" name="post" rows="4"></textarea>
+                </div>
             </div>
             <div class="pics">
                 <div class="btnImport">
-                    <input type="file" class="importImage" >
+                    <label for="importImages">Ajouter une image</label>
+                    <input id="importImages" type="file" class="importImage" >
                 </div>
             </div>
             <div class="btnPost">
@@ -93,23 +97,35 @@ export default {
         gap: 20px;
         padding-bottom: 7px;
 
-        textarea {
-            background-color: rgb(61, 61, 61);
-            min-width: 200px;
+        .post_text {
             width: 80%;
-            resize: none; 
-            border: none;
-            border-radius: 5px;
-            caret-color: white;
-            padding: 5px 10px 5px 10px;
-            color: white;
-
-            &::placeholder {
-                color: #FFD7D7;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            
+            textarea {
+                background-color: rgb(61, 61, 61);
+                min-width: 200px;
+                width: 100%;
+                resize: none; 
+                border: none;
+                border-radius: 5px;
+                caret-color: white;
+                padding: 5px 10px 5px 10px;
+                color: white;
+    
+                &::placeholder {
+                    color: #ffd7d793;
+                }
+    
+                &:focus {
+                    outline: solid 2px #ffd7d7; 
+                }
             }
 
-            &:focus {
-                outline: solid 2px #ffd7d7; 
+            label {
+                margin-left: 10px;
+                font-size: 0.9rem;
             }
         }
     }
@@ -119,8 +135,13 @@ export default {
 
         .btnImport {
             display: flex;
-            gap: 10px;
-            align-items: center;
+            gap: 5px;
+            // align-items: center;
+            flex-direction: column;
+
+            label {
+                font-size: 0.9rem;
+            }
 
             a {
                 font-size: 0.8rem;

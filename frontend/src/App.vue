@@ -16,7 +16,7 @@ ul {list-style-type: none;}
 
 
 body {
-  background-color: grey;
+  background-color: rgb(80,80,80);
   font-family: roboto;
 }
 

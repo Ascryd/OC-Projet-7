@@ -1,7 +1,7 @@
 <template>
 
   <section class="card">
-    <div class="connect">
+    <div @keyup.enter="register" class="connect">
 
       <h1>Inscription</h1>
       <div class="form">

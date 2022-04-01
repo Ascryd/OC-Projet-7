@@ -20,9 +20,12 @@
             <h2 class="comments_h2">Commentaires</h2>
 
             <div class="input">
-                <img class="profilPic profilPic--small" :src="userInfos.imageProfilUrl" alt="Photo de profil">
-                <textarea v-model="inputComment" class="inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
-                <font-awesome-icon @click="postComment(message.message_id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                <label :for="message.message_id">Commentez le post de {{message.firstName}} !</label>
+                <div class="input_part">
+                    <img class="profilPic profilPic--small" :src="userInfos.imageProfilUrl" alt="Photo de profil">
+                    <textarea v-model="inputComment" :id="message.message_id" class="inputComment" rows="2" placeholder="Répondez !" name="post"></textarea>
+                    <font-awesome-icon @click="postComment(message.message_id)" class="send_icon" :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                </div>
             </div>
 
             <div v-for="comment in message.comments" :key="comment.message_id" class="post_comments">
@@ -164,31 +167,44 @@ export default {
 
         .input {
             display: flex;
-            gap: 10px;
-            align-items: center;
-            resize: none;
-            min-height: 20px;
-            padding-bottom: 25px;
+            flex-direction: column;
+            gap: 5px;
 
-            textarea {
-                background-color: rgb(61, 61, 61);
-                width: 70%;
-                resize: none;
-                border: none;
-                border-radius: 5px;
-                caret-color: white;
-                padding: 5px 10px 5px 10px;
-                color: white;
-                border: none;
-
-                &::placeholder {
-                    color: #FFD7D7;
+                label {
+                    margin-left: 45px;
+                    font-size: 0.85rem;
                 }
 
-                &:focus {
-                    outline: solid 2px #ffd7d7; 
+                .input_part {
+
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    resize: none;
+                    min-height: 20px;
+                    padding-bottom: 25px;
+                    
+                    textarea {
+                        background-color: rgb(61, 61, 61);
+                        width: 70%;
+                        resize: none;
+                        border: none;
+                        border-radius: 5px;
+                        caret-color: white;
+                        padding: 5px 10px 5px 10px;
+                        color: white;
+                        border: none;
+        
+                        &::placeholder {
+                            color: #ffd7d793;
+                        }
+        
+                        &:focus {
+                            outline: solid 2px #ffd7d7; 
+                        }
+                    }
                 }
-            }
+                
 
             .send_icon {
                 color: #ffd7d7;

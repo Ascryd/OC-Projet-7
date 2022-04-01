@@ -1,7 +1,7 @@
 <template>
 
   <section class="card">
-    <div class="connect">
+    <div @keyup.enter="login" class="connect">
 
       <h1>Connexion</h1>
       <div class="form">
